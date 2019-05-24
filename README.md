@@ -1,1 +1,0 @@
-# FaultDetection-SVDD-ddtools
