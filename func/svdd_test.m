@@ -10,16 +10,20 @@
 % OUTPUT
 %   d              Distance from the samles to the center of hypersphere
 %
-% Created by Kepeng Qiu on May 24, 2019.
+% Created by Kepeng Qiu on May 28, 2019.
 %-------------------------------------------------------------%
 
-function d = svdd_test(model,y)
+function d = svdd_test(model,Y)
 
-% Compute kernel matrix
-K = computeKM(model.ker,y,model.SV_value);
-
-% Compute the distance
-Dx = - 2*sum( (ones(size(y,1),1)*model.SV_alf').*K, 2);
-d = model.offs+Dx;
+% Compute the kernel matrix
+K = computeKM(model.ker,Y,model.X);
+% the 1st term
+term1 = computeKM(model.ker,Y,Y);
+% the 2nd term
+term2 = -2*K*model.alf;
+% the 3rd term
+term3 = model.term3;
+% distance
+d = diag(term1+term2+term3);
 
 end
