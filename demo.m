@@ -17,7 +17,8 @@ load ('.\data\Y.mat')
 
 % Set parameters 
 C = 0.2;   % trade-off parameter
-ker = struct('type','gauss','width',6);
+s = 6;     % kernel width
+ker = struct('type','gauss','width',s);
 
 % Train SVDD hypersphere
 model = svdd_train(X_s,C,ker);
@@ -26,5 +27,5 @@ model = svdd_train(X_s,C,ker);
 d = svdd_test(model,Y_s);
 
 % Plot the results
-plotResult(model.threshold,d)
+plotResult(model.R,d)
 
