@@ -11,7 +11,7 @@
 % OUTPUT
 %   alf       Lagrange multipliers of support vetors
 
-% Created by Kepeng Qiu on May 24, 2019.
+% Created by Kepeng Qiu on May 28, 2019.
 %-------------------------------------------------------------%
 
 function alf = svdd_opt(K,X,C)
