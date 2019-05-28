@@ -1,10 +1,16 @@
 ## Fault detection based on support vector data description (SVDD)
 
----------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+Updated on 28 May 2019	
+1. Added descriptions for the calculation of the radius 
+2. Added descriptions for the calculating the distance from the testing sample to the center of the sphere
+------------------------------------------------------------------------------------------------------------------  
+
+------------------------------------------------------------------------------------------------------------------
 Updated on 24 May 2019	
 1. Fixed some function descriptions 
 2. Added support for some common kernel functions
----------------------------------------------------------  
+------------------------------------------------------------------------------------------------------------------ 
 
 ## demo
 ```
