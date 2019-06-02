@@ -1,6 +1,10 @@
 ## Fault detection based on support vector data description (SVDD)
 
 -------------------------------------------------------------------
+Updated on 2 Jun 2019	
+1. Added the SMO algorithm to solve the Lagrange dual problem of SVDD
+-------------------------------------------------------------------
+
 Updated on 28 May 2019	
 1. Added descriptions for the calculation of the radius 
 2. Added descriptions for the calculation of the distance 
