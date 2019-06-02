@@ -6,6 +6,7 @@
 
 clc
 close all
+% clearvars
 addpath(genpath(pwd))
 
 % Load  data (X: training data  Y: testing data)
@@ -16,8 +17,8 @@ load ('.\data\Y.mat')
 [X_s,Y_s] = normalize(X,Y);
 
 % Set parameters 
-C = 0.2;   % trade-off parameter
-s = 6;     % kernel width
+C = 0.5;   % trade-off parameter
+s = 9;     % kernel width
 ker = struct('type','gauss','width',s);
 
 % Train SVDD hypersphere
