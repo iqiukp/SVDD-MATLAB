@@ -1,6 +1,6 @@
 % DESCRIPTION
-% Train SVDD hypersphere  
-% reference: Tax, David MJ, and Robert PW Duin. 
+% Train SVDD hypersphere
+% reference: Tax, David MJ, and Robert PW Duin.
 % "Support vector data description." Machine learning 54.1 (2004): 45-66.
 %
 %       model = svdd_train(X,C,ker)
@@ -8,37 +8,39 @@
 % INPUT
 %   X         Training data
 %   C         trade-off parameter
-%   ker       Kernel function
+%   ker       Kernel function parameters
 %
 % OUTPUT
 %   model         SVDD hypersphere
 %
-% Created by Kepeng Qiu on May 28, 2019.
+% Created by Kepeng Qiu on Jun 2, 2019.
 %-------------------------------------------------------------%
 
 function model = svdd_train(X,C,ker)
 
-%
-SV_threshold = 1e-8;
-C = [C,Inf];
+% The value of C should be chosen in [1/N, 1], where N is the number 
+% of data. Models with C>1 are the same, and so are models with C<1/N.
+if C < 1/size(X,1)
+    C = 1/size(X,1)+eps;
+end
 
 % Compute the kernel matrix
 K = computeKM(ker,X,X);
 
-% Quadratic optimizer for SVDD 
-alf = svdd_opt(K,X,C);
+% Solve the Lagrange dual problem of SVDD by using SMO
+alf = svdd_smo(K,C);
 
-% support vectors 
-SV_index = find(alf>SV_threshold);
+% support vectors
+SV_index = find(alf>eps);
 SV_value = X(SV_index,:);
 SV_alf = alf(SV_index);
 
 % Compute the center: eq(7)
-cent = alf'*X; 
+cent = alf'*X;
 
 % Compute the radius: eq(15)
-% The distance from any support vector to the center of the sphere is 
-% the hypersphere radius. Here take the first support vector.
+% The distance from any support vector to the center of the sphere is
+% the hypersphere radius. Here take the 1st support vector.
 
 r_index = SV_index(1,1);
 % the 1st term in eq(15)
