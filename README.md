@@ -1,5 +1,7 @@
 # Support Vector Data Description (SVDD)
 
+[![View Support Vector Data Description (SVDD) on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://ww2.mathworks.cn/matlabcentral/fileexchange/69296-support-vector-data-description-svdd)
+
 MATLAB Code for abnormal detection or fault detection using SVDD.
 
 Version 2.0, 1-DEC-2019
@@ -13,7 +15,7 @@ Email: iqiukp@outlook.com
 * SVDD model for training dataset containing only positive training data. (SVDD)
 * SVDD model for training dataset containing both positive training data and negative training data. (nSVDD)
 * Multiple kinds of kernel functions.
-* Visualization module including ROC curve plotting, testing result plottong, and decision boundary.
+* Visualization module including ROC curve plotting, testing result plotting, and decision boundary.
 * Dimensionality Reduction (DR) module based on ['drtoolbox'](http://lvdmaaten.github.io/drtoolbox).
 * Parameter Optimization (PO) module based on the ['YPEA' toolbox](https://yarpiz.com/477/ypea-yarpiz-evolutionary-algorithms?tdsourcetag=s_pctim_aiomsg).
 * Preprocessing module for data standardization or data normalization.
@@ -21,7 +23,7 @@ Email: iqiukp@outlook.com
 
 ## About SVDD model
 
-Two types of SVDD modles are built according to the following references:
+Two types of SVDD models are built according to the following references:
 
 [1]    Tax D M J, Duin R P W. Support vector data description[J]. Machine learning, 2004, 54(1): 45-66.
 
@@ -82,7 +84,7 @@ A total of 9 demonstrations were provided, as follows:
 
 ## About Dimensionality Reduction (DR) module
 
-Dimensionality Reduction module is realized based on 'drtoolbox', contains Matlab implementations of 34 techniques for dimensionality reduction and metric learning. 
+Dimensionality Reduction module is realized based on 'drtoolbox', which contains Matlab implementations of 34 techniques for dimensionality reduction and metric learning. 
 
 For details about 'drtoolbox', please visit the website: http://lvdmaaten.github.io/drtoolbox 
 
@@ -90,7 +92,7 @@ For details about 'drtoolbox', please visit the website: http://lvdmaaten.github
 
 ## About Parameter Optimization (PO) module
 
-Parameter Optimization module is realized based on on the YPEA toolbox, contains Matlab implementations of 14 techniques for Parameter Optimization and metric learning. 
+Parameter Optimization module is realized based on the YPEA toolbox, which contains Matlab implementations of 14 techniques for Parameter Optimization and metric learning. 
 
 For details about YPEA toolbox, please visit the website: https://yarpiz.com/477/ypea-yarpiz-evolutionary-algorithms?tdsourcetag=s_pctim_aiomsg
 
