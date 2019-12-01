@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<toc version="2.0">
+<!-- First tocitem specifies top level in Help browser Contents pane -->
+<!-- This can be a roadmap page, as shown below, or a content page -->
+    <tocitem target="doc_ypea.html">Yarpiz Evolutionary Algorithms Toolbox
+        <!-- Nest tocitems to create hierarchical entries in Contents-->
+        <!-- To include icons, use the following syntax for tocitems: -->
+        <!-- <tocitem target="foo.html" image="HelpIcon.NAME"> -->
+        <!-- Title-of-Section </tocitem> -->
+        <!-- where NAME is one of the following (use capital letters): -->
+        <!-- FUNCTION, USER_GUIDE, EXAMPLES, BLOCK, GETTING_STARTED, -->
+        <!-- DEMOS, RELEASE_NOTES --> 
+        <!-- Icon images used for these entries are also stored in -->
+        <!-- matlabroot/toolbox/matlab/icons -->
+        <!-- A Getting Started Guide usually comes first -->
+        <tocitem target="doc_ypea_problem.html" image="HelpIcon.GETTING_STARTED">
+            Defining Optimization Problems
+        </tocitem>
+        <tocitem target="doc_ypea_var.html" image="HelpIcon.USER_GUIDE">
+            Defining Decision Variables
+        </tocitem>
+        <tocitem target="doc_ypea_algorithms.html" image="HelpIcon.HelpIcon.EXAMPLES">
+            Available Algorithms
+            <tocitem target="doc_ypea_abc.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Artificial Bee Colony
+            </tocitem>
+            <tocitem target="doc_ypea_acor.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Continuous Ant Colony Optimization
+            </tocitem>
+            <tocitem target="doc_ypea_ba.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Bees Algorithm
+            </tocitem>
+            <tocitem target="doc_ypea_bbo.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Biogeography-based Optimization
+            </tocitem>
+            <tocitem target="doc_ypea_cmaes.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Covariance Matrix Adaptation Evolution Strategy
+            </tocitem>
+            <tocitem target="doc_ypea_de.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Differential Evolution
+            </tocitem>
+            <tocitem target="doc_ypea_fa.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Firefly Algorithm
+            </tocitem>
+            <tocitem target="doc_ypea_ga.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Genetic Algorithm
+            </tocitem>
+            <tocitem target="doc_ypea_hs.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Harmony Search
+            </tocitem>
+            <tocitem target="doc_ypea_ica.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Imperialist Competitive Algorithm
+            </tocitem>
+            <tocitem target="doc_ypea_iwo.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Invasive Weed Optimization
+            </tocitem>
+            <tocitem target="doc_ypea_pso.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Particle Swarm Optimization
+            </tocitem>
+            <tocitem target="doc_ypea_sa.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Simulated Annealing
+            </tocitem>
+            <tocitem target="doc_ypea_tlbo.html" image="HelpIcon.HelpIcon.EXAMPLES">
+                Teaching-Learning-based Optimization
+            </tocitem>
+        </tocitem>
+        
+        <tocitem target="http://yarpiz.com" image="$toolbox/matlab/icons/webicon.gif">
+        Yarpiz.com
+        </tocitem>
+    </tocitem>
+</toc>

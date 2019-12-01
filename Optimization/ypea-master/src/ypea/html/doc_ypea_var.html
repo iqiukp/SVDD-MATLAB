@@ -1,0 +1,662 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>How to define Decision Variables</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-27"><meta name="DC.source" content="doc_ypea_var.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>How to define Decision Variables</h1><!--introduction--><p>This document shows how to define decision variables with optimization problems and use <tt>ypea_var</tt> function, which is a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Properties of a Decision Variables</a></li><li><a href="#2">How to Create a Decision Variables</a></li><li><a href="#3">Types of Decision Variables</a></li></ul></div><h2 id="1">Properties of a Decision Variables</h2><p>Decision variables are defined and stored as structures in YPEA. Fields of a structure which defines a decision variable, are listed below:</p><div><ul><li><tt>name</tt>, the name of variables, in final (parsed) solution structure</li><li><tt>type</tt>, type of decision variables, which can be one of possible types, dicussed later in this document (<a href="#3">Types of Decision Variables</a>)</li><li><tt>size</tt>, the size of matrix representing the decision variable</li><li><tt>count</tt>, number of elements in matrix representing the variable</li><li><tt>props</tt>, a structure, containing properties of the variable</li><li><tt>decode</tt>, a function handle, which decodes a coded vectors into a meaningful value of decision variable</li></ul></div><h2 id="2">How to Create a Decision Variables</h2><p>To create (define) a decision variables, the function <tt>ypea_var</tt> should be used. The general form is as follows:</p><p><tt>var = ypea_var('name', 'type', 'size', [m n ... p], 'prop1', value1, 'prop2', value2, ...);</tt></p><p>Types of variables and their properties are discussed in the next section.</p><h2 id="3">Types of Decision Variables</h2><p>There are several types of decision variables, available in YPEA. These types are listed below. All of variables defined in YPEA, are coded in a way, that their corresponding coded values are real numbers in [0,1]. However, the YPEA is responsible for encoding and decoding the solutions and you just need to define the variables and let YPEA do the rest for you.</p><p><b>Real Variable</b> (<tt>real</tt>)</p><p>This represents real (continuous) decision variables. The lower and upper bounds of the variable set, are specified by <tt>lower_bound</tt> (or <tt>lb</tt>, for short) and <tt>upper_bound</tt> (or <tt>ub</tt>, for short) properties.</p><p><i>Some Examples</i></p><p>This defines a scalar real variable, named <tt>x</tt>, which is in the range [0, 1]:</p><pre class="codeinput">var = ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>);
+</pre><p>This defines a set of 10 real variables, all of which are in the range [-5, +5].</p><pre class="codeinput">var = ypea_var(<span class="string">'y'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, 10, <span class="string">'lower_bound'</span>, -5, <span class="string">'upper_bound'</span>, 5);
+</pre><p>This defines a set of 3 real variables, which lie in ranges [-1, 1], [3, 5] and [-10, 2], respectively.</p><pre class="codeinput">var = ypea_var(<span class="string">'z'</span>, <span class="string">'real'</span>, <span class="string">'lb'</span>, [-1 3 -10], <span class="string">'ub'</span>, [1 5 2]);
+</pre><p>For example, to have samples of this variable, you may call:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    z: [-0.1221 3.8594 -3.9510]
+
+</pre><p>Another sample will be:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    z: [0.5307 4.9234 -2.8241]
+
+</pre><p>It is possible to define decision variables as matrices. For example this line of code, defines a 3-by-5 matrix of real variables, elements of which are all in the range of [-3, 8]:</p><pre class="codeinput">var = ypea_var(<span class="string">'X'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, [3 5], <span class="string">'lb'</span>, -3, <span class="string">'ub'</span>, 8);
+</pre><p>And this is a sample of this variable:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.X
+</pre><pre class="codeoutput">
+ans =
+
+   -0.5359    6.4214    3.8121   -1.2183    5.6421
+    7.8122    0.1930    7.1361   -1.6937   -0.8839
+   -2.4151    4.7825    3.7277   -2.4336    4.9108
+
+</pre><p>General it is possible to define lower and upper bounds as matrices. An example of matrix bounds is presented below:</p><pre class="codeinput">lb = [-5  1  3
+       0  0 -8];
+
+ub = [-2  4  7
+       1  5  8];
+
+var = ypea_var(<span class="string">'A'</span>, <span class="string">'real'</span>, <span class="string">'lower_bound'</span>, lb, <span class="string">'upper_bound'</span>, ub);
+</pre><p>Let's generate a sample from this variables:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.A
+</pre><pre class="codeoutput">
+ans =
+
+   -2.0400    1.2222    4.4336
+    0.2415    2.3816    5.2298
+
+</pre><p><b>Integer Variable</b> (<tt>integer</tt>)</p><p>This represents integer (discrete) decision variables. Similat to the real variables, the lower and upper bounds of the variable are specified by <tt>lower_bound</tt> (or <tt>lb</tt>, for short) and <tt>upper_bound</tt> (or <tt>ub</tt>, for short) properties.</p><p><i>Some Examples</i></p><p>This defines a scalar integer variable, named <tt>n</tt>, which is either 0 or 1, i.e. a binary variable:</p><pre class="codeinput">var = ypea_var(<span class="string">'n'</span>, <span class="string">'integer'</span>);
+</pre><p>This defines a set of 8 integer variables, all of which are in the range [-3, 6].</p><pre class="codeinput">var = ypea_var(<span class="string">'m'</span>, <span class="string">'int'</span>, <span class="string">'size'</span>, 8, <span class="string">'lower_bound'</span>, -3, <span class="string">'upper_bound'</span>, 6);
+</pre><p>A Sample of this variable can be generated as follows:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    m: [1 -2 -3 0 2 5 5 5]
+
+</pre><p>This defines a set of 4 integer variables, which lie in ranges [-1, 1], [3, 5] and [-10, 2], respectively.</p><pre class="codeinput">var = ypea_var(<span class="string">'p'</span>, <span class="string">'int'</span>, <span class="string">'lb'</span>, [-1 3 -10], <span class="string">'ub'</span>, [1 5 2]);
+</pre><p>To have samples of this variable, you may call:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    p: [-1 4 -3]
+
+</pre><p>Also you may create a complex structure of different decision varibales by creating a matrix of variables. For example:</p><pre class="codeinput">vars = [
+    ypea_var(<span class="string">'a'</span>, <span class="string">'int'</span>, <span class="string">'size'</span>, 3, <span class="string">'lb'</span>, 1, <span class="string">'ub'</span>, 6)
+    ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, 3, <span class="string">'lb'</span>, -2, <span class="string">'ub'</span>, 2)
+    ypea_var(<span class="string">'m'</span>, <span class="string">'int'</span>, <span class="string">'lb'</span>, 0, <span class="string">'ub'</span>, 10)
+];
+</pre><p>Let's generate a sample of this:</p><pre class="codeinput">sol = ypea_generate_sample(vars)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    a: [2 3 4]
+    x: [-0.2069 0.8652 -1.8623]
+    m: 1
+
+</pre><p><b>Binary Variable</b> (<tt>binary</tt>)</p><p>Binary variable is a special case of integer variable, with lower and upper bound set to be 0 and 1, respectively.</p><p><i>Some Examples</i></p><p>For example this is a 3-by-6 matrix of binary variables:</p><pre class="codeinput">var = ypea_var(<span class="string">'x'</span>, <span class="string">'bin'</span>, <span class="string">'size'</span>, [3 6]);
+</pre><p>Let's generate a sample from this:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.x
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     1     0     0     0
+     1     0     0     1     1     1
+     1     1     1     1     0     0
+
+</pre><p><b>Permutation Variable</b> (<tt>permutation</tt>)</p><p>Permutation variable represent a permutation of numbers, from 1 to n, where n is the length of the permutation. It is possible to have several permutations as rows of a matrix.</p><p><i>Some Examples</i></p><p>This is a simple permutation variable:</p><pre class="codeinput">var = ypea_var(<span class="string">'tour'</span>, <span class="string">'permutation'</span>, <span class="string">'size'</span>, 8);
+
+sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    tour: [8 1 4 3 5 7 2 6]
+
+</pre><p>To have mutiple permutations of the same length, it is possible to define permutation variable as follows:</p><pre class="codeinput">var = ypea_var(<span class="string">'p'</span>, <span class="string">'perm'</span>, <span class="string">'size'</span>, [3 8]);
+</pre><p>which defines 3 permutations of length 8. Let's create a sample of this:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.p
+</pre><pre class="codeoutput">
+ans =
+
+     4     1     8     6     3     5     7     2
+     5     7     6     4     8     1     3     2
+     6     5     7     4     3     8     1     2
+
+</pre><p><b>Selection Variables</b> (<tt>selection</tt> and <tt>binary_selection</tt>)</p><p>These types of variable are used to select some fixed number of items from a predefined list. The number of selected items is specified by <tt>selection_count</tt>. The binary version, represents the solution as binary flags.</p><p><i>Some Examples</i></p><p>This is a simple selection variable:</p><pre class="codeinput">var = ypea_var(<span class="string">'a'</span>, <span class="string">'selection'</span>, <span class="string">'size'</span>, 10, <span class="string">'selection_count'</span>, 4);
+</pre><p>which means selection of 4 items among 10. A sample solution may be:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    a: [7 4 1 10]
+
+</pre><p>The same variable can be defined in binary form:</p><pre class="codeinput">var = ypea_var(<span class="string">'b'</span>, <span class="string">'binary_selection'</span>, <span class="string">'size'</span>, 10, <span class="string">'selection_count'</span>, 4);
+</pre><p>and a sample solution may be like this:</p><pre class="codeinput">sol = ypea_generate_sample(var)
+</pre><pre class="codeoutput">
+sol = 
+
+  struct with fields:
+
+    b: [0 0 1 1 0 0 1 1 0 0]
+
+</pre><p>Just like permutation variables, it is possible to perform multiple selections. For example, 3 selection operations, each of which is selection of 4 item among 10, can be defined as:</p><pre class="codeinput">var = ypea_var(<span class="string">'c'</span>, <span class="string">'selection'</span>, <span class="string">'size'</span>, [3 10], <span class="string">'selection_count'</span>, 4);
+</pre><p>A sample solution for this variable definition follows:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.c
+</pre><pre class="codeoutput">
+ans =
+
+     2     7     9    10
+     1     2     8     9
+     7     3    10     6
+
+</pre><p>The binary equivalent of multiple selection can be defined as:</p><pre class="codeinput">var = ypea_var(<span class="string">'d'</span>, <span class="string">'binary_selection'</span>, <span class="string">'size'</span>, [3 10], <span class="string">'selection_count'</span>, 4);
+sol = ypea_generate_sample(var);
+sol.d
+</pre><pre class="codeoutput">
+ans =
+
+     1     1     0     1     0     0     0     0     1     0
+     0     0     0     0     1     1     0     1     1     0
+     0     0     0     1     1     1     0     0     1     0
+
+</pre><p><b>Partition Variables</b> (<tt>partition</tt> and <tt>binary_partition</tt>)</p><p>Partition or allocation variables are used to partition/assign/allocate some items to a list of predefined options. The number of partitions is specified by <tt>partition_count</tt>. The binary version, represents the solution as binary flags.</p><p><i>Some Examples</i></p><p>This is a simple partition/allocation variable:</p><pre class="codeinput">var = ypea_var(<span class="string">'a'</span>, <span class="string">'partition'</span>, <span class="string">'size'</span>, 10, <span class="string">'partition_count'</span>, 3);
+</pre><p>which means partitioning of 10 items into 4 partitions. A sample solution may be:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.a
+</pre><pre class="codeoutput">
+ans =
+
+  3&times;1 cell array
+
+    {[       5]}
+    {1&times;0 double}
+    {1&times;9 double}
+
+</pre><p>The same variable can be defined in binary form:</p><pre class="codeinput">var = ypea_var(<span class="string">'b'</span>, <span class="string">'binary_partition'</span>, <span class="string">'size'</span>, 10, <span class="string">'partition_count'</span>, 3);
+</pre><p>and a sample solution may be like this:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.b
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     0     0     0     0     0     1     0     0
+     0     0     0     0     0     0     0     0     1     0
+     0     1     1     1     1     1     1     0     0     1
+
+</pre><p>Just like permutation and selection variables, it is possible to perform multiple partitions/allocations. For example, 2 partitioning operations, each of which is allocating 10 items to 3 options, can be defined as:</p><pre class="codeinput">var = ypea_var(<span class="string">'c'</span>, <span class="string">'partition'</span>, <span class="string">'size'</span>, [2 10], <span class="string">'partition_count'</span>, 3);
+</pre><p>A sample solution for this variable definition follows:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.c
+</pre><pre class="codeoutput">
+ans =
+
+  2&times;1 cell array
+
+    {3&times;1 cell}
+    {3&times;1 cell}
+
+</pre><p>The first allocation is given by:</p><pre class="codeinput">sol.c{1}
+</pre><pre class="codeoutput">
+ans =
+
+  3&times;1 cell array
+
+    {1&times;0 double}
+    {1&times;2 double}
+    {1&times;8 double}
+
+</pre><p>The binary equivalent of multiple selection can be defined as:</p><pre class="codeinput">var = ypea_var(<span class="string">'d'</span>, <span class="string">'binary_partition'</span>, <span class="string">'size'</span>, [2 10], <span class="string">'partition_count'</span>, 3);
+sol = ypea_generate_sample(var);
+sol.d
+</pre><pre class="codeoutput">
+ans =
+
+  2&times;1 cell array
+
+    {3&times;10 double}
+    {3&times;10 double}
+
+</pre><pre class="codeinput">sol.d{1}
+</pre><pre class="codeoutput">
+ans =
+
+     1     0     0     1     0     1     1     0     1     1
+     0     1     1     0     0     0     0     1     0     0
+     0     0     0     0     1     0     0     0     0     0
+
+</pre><p><b>Fixed Sum Variable</b> (<tt>sum</tt>, <tt>row_sum</tt> and <tt>col_sum</tt> )</p><p>Fixed sum variables represent are used to ensure that sum of some real valued numbers is exactly equal to a specified <tt>target</tt> value. This equality, can be defined for sum of all elements of a matrix or rows and columns of the matrix.</p><p><i>Some Examples</i></p><p>For example, this defines a 3-by-4 matrix, which its sum of elements equals to 5:</p><pre class="codeinput">var = ypea_var(<span class="string">'x'</span>, <span class="string">'sum'</span>, <span class="string">'size'</span>, [3 4], <span class="string">'target'</span>, 5);
+</pre><p>Let's generate a sample of this:</p><pre class="codeinput">sol = ypea_generate_sample(var);
+sol.x
+</pre><pre class="codeoutput">
+ans =
+
+    0.3622    0.5930    0.2565    0.4856
+    0.3624    0.5566    0.3488    0.1811
+    0.4049    0.4943    0.1692    0.7853
+
+</pre><p>We can check the equality by:</p><pre class="codeinput">sum(sol.x(:))
+</pre><pre class="codeoutput">
+ans =
+
+     5
+
+</pre><p>If the same variable set is defined to have fixed row sum, we will have:</p><pre class="codeinput">var = ypea_var(<span class="string">'x'</span>, <span class="string">'row_sum'</span>, <span class="string">'size'</span>, [3 4], <span class="string">'target'</span>, 5);
+sol = ypea_generate_sample(var);
+sol.x
+</pre><pre class="codeoutput">
+ans =
+
+    0.3387    1.6862    1.0470    1.9282
+    1.7129    0.0730    1.1923    2.0219
+    1.4965    1.7062    0.5003    1.2969
+
+</pre><p>And the sum of rows of the sample is given by:</p><pre class="codeinput">sum(sol.x, 2)
+</pre><pre class="codeoutput">
+ans =
+
+     5
+     5
+     5
+
+</pre><p>The fixed column sum version of this variable follows:</p><pre class="codeinput">var = ypea_var(<span class="string">'x'</span>, <span class="string">'col_sum'</span>, <span class="string">'size'</span>, [3 4], <span class="string">'target'</span>, 5);
+sol = ypea_generate_sample(var);
+sol.x
+</pre><pre class="codeoutput">
+ans =
+
+    1.9228    1.6212    1.1777    0.6550
+    2.3160    2.2796    1.3327    2.1647
+    0.7612    1.0992    2.4896    2.1803
+
+</pre><p>And the sum of columns of the sample is given by:</p><pre class="codeinput">sum(sol.x)
+</pre><pre class="codeoutput">
+ans =
+
+    5.0000    5.0000    5.0000    5.0000
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% How to define Decision Variables
+% This document shows how to define decision variables with optimization
+% problems and use |ypea_var| function,
+% which is a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA).
+
+%% Properties of a Decision Variables
+% Decision variables are defined and stored as structures in YPEA. Fields
+% of a structure which defines a decision variable, are listed below:
+%
+% * |name|, the name of variables, in final (parsed) solution structure
+% * |type|, type of decision variables, which can be one of possible types,
+% dicussed later in this document (<#3 Types of Decision Variables>)
+% * |size|, the size of matrix representing the decision variable
+% * |count|, number of elements in matrix representing the variable
+% * |props|, a structure, containing properties of the variable
+% * |decode|, a function handle, which decodes a coded vectors into a
+% meaningful value of decision variable
+
+%% How to Create a Decision Variables
+% To create (define) a decision variables, the function |ypea_var| should
+% be used. The general form is as follows:
+% 
+% |var = ypea_var('name', 'type', 'size', [m n ... p], 'prop1', value1,
+% 'prop2', value2, ...);|
+% 
+% Types of variables and their properties are discussed in the next
+% section.
+
+%% Types of Decision Variables
+% There are several types of decision variables, available in YPEA. These
+% types are listed below. All of variables defined in YPEA, are coded in a
+% way, that their corresponding coded values are real numbers in [0,1].
+% However, the YPEA is responsible for encoding and decoding the solutions
+% and you just need to define the variables and let YPEA do the rest for
+% you.
+
+%%
+% *Real Variable* (|real|)
+%
+% This represents real (continuous) decision variables. The lower and upper
+% bounds of the variable set, are specified by
+% |lower_bound| (or |lb|, for short) and
+% |upper_bound| (or |ub|, for short) properties.
+%
+% _Some Examples_
+%
+
+%%
+% This defines a scalar real variable, named |x|, which is in the range
+% [0, 1]:
+var = ypea_var('x', 'real');
+
+%%
+% This defines a set of 10 real variables, all of which are in the range
+% [-5, +5].
+var = ypea_var('y', 'real', 'size', 10, 'lower_bound', -5, 'upper_bound', 5);
+
+%%
+% This defines a set of 3 real variables,
+% which lie in ranges [-1, 1], [3, 5] and [-10, 2], respectively.
+var = ypea_var('z', 'real', 'lb', [-1 3 -10], 'ub', [1 5 2]);
+
+%%
+% For example, to have samples of this variable, you may call:
+sol = ypea_generate_sample(var)
+
+%%
+% Another sample will be:
+sol = ypea_generate_sample(var)
+
+%%
+% It is possible to define decision variables as matrices. For example this
+% line of code, defines a 3-by-5 matrix of real variables, elements of
+% which are all in the range of [-3, 8]:
+var = ypea_var('X', 'real', 'size', [3 5], 'lb', -3, 'ub', 8);
+
+%%
+% And this is a sample of this variable:
+sol = ypea_generate_sample(var);
+sol.X
+
+%%
+% General it is possible to define lower and upper bounds as matrices. An
+% example of matrix bounds is presented below:
+
+lb = [-5  1  3
+       0  0 -8];
+   
+ub = [-2  4  7
+       1  5  8];
+
+var = ypea_var('A', 'real', 'lower_bound', lb, 'upper_bound', ub);
+
+%%
+% Let's generate a sample from this variables:
+sol = ypea_generate_sample(var);
+sol.A
+
+%%
+% *Integer Variable* (|integer|)
+%
+% This represents integer (discrete) decision variables. 
+% Similat to the real variables, the lower and upper bounds of the variable
+% are specified by
+% |lower_bound| (or |lb|, for short) and
+% |upper_bound| (or |ub|, for short) properties.
+%
+% _Some Examples_
+%
+
+%%
+% This defines a scalar integer variable, named |n|, which is either 0 or
+% 1, i.e. a binary variable:
+var = ypea_var('n', 'integer');
+
+%%
+% This defines a set of 8 integer variables, all of which are in the range
+% [-3, 6].
+var = ypea_var('m', 'int', 'size', 8, 'lower_bound', -3, 'upper_bound', 6);
+
+%%
+% A Sample of this variable can be generated as follows:
+sol = ypea_generate_sample(var)
+
+%%
+% This defines a set of 4 integer variables,
+% which lie in ranges [-1, 1], [3, 5] and [-10, 2], respectively.
+var = ypea_var('p', 'int', 'lb', [-1 3 -10], 'ub', [1 5 2]);
+
+%%
+% To have samples of this variable, you may call:
+sol = ypea_generate_sample(var)
+
+%%
+% Also you may create a complex structure of different decision varibales
+% by creating a matrix of variables. For example:
+vars = [
+    ypea_var('a', 'int', 'size', 3, 'lb', 1, 'ub', 6)
+    ypea_var('x', 'real', 'size', 3, 'lb', -2, 'ub', 2)
+    ypea_var('m', 'int', 'lb', 0, 'ub', 10)
+];
+
+%%
+% Let's generate a sample of this:
+sol = ypea_generate_sample(vars)
+
+%%
+% *Binary Variable* (|binary|)
+%
+% Binary variable is a special case of integer variable, with lower and
+% upper bound set to be 0 and 1, respectively.
+%
+% _Some Examples_
+%
+
+%%
+% For example this is a 3-by-6 matrix of binary variables:
+var = ypea_var('x', 'bin', 'size', [3 6]);
+
+%%
+% Let's generate a sample from this:
+sol = ypea_generate_sample(var);
+sol.x
+
+%%
+% *Permutation Variable* (|permutation|)
+%
+% Permutation variable represent a permutation of numbers, from 1 to n,
+% where n is the length of the permutation. It is possible to have several
+% permutations as rows of a matrix.
+%
+% _Some Examples_
+%
+
+%%
+% This is a simple permutation variable:
+var = ypea_var('tour', 'permutation', 'size', 8);
+
+sol = ypea_generate_sample(var)
+
+%%
+% To have mutiple permutations of the same length, it is possible to define
+% permutation variable as follows:
+var = ypea_var('p', 'perm', 'size', [3 8]);
+
+%%
+% which defines 3 permutations of length 8. Let's create a sample of this:
+sol = ypea_generate_sample(var);
+sol.p
+
+%%
+% *Selection Variables* (|selection| and |binary_selection|)
+%
+% These types of variable are used to select some fixed number of items from
+% a predefined list.
+% The number of selected items is specified by |selection_count|.
+% The binary version, represents the solution as binary flags.
+%
+% _Some Examples_
+%
+
+%%
+% This is a simple selection variable:
+var = ypea_var('a', 'selection', 'size', 10, 'selection_count', 4);
+
+%%
+% which means selection of 4 items among 10. A sample solution may be:
+sol = ypea_generate_sample(var)
+
+%%
+% The same variable can be defined in binary form:
+var = ypea_var('b', 'binary_selection', 'size', 10, 'selection_count', 4);
+
+%%
+% and a sample solution may be like this:
+sol = ypea_generate_sample(var)
+
+%%
+% Just like permutation variables, it is possible to perform multiple
+% selections. For example, 3 selection operations, each of which is
+% selection of 4 item among 10, can be defined as:
+var = ypea_var('c', 'selection', 'size', [3 10], 'selection_count', 4);
+
+%%
+% A sample solution for this variable definition follows:
+sol = ypea_generate_sample(var);
+sol.c
+
+%%
+% The binary equivalent of multiple selection can be defined as:
+var = ypea_var('d', 'binary_selection', 'size', [3 10], 'selection_count', 4);
+sol = ypea_generate_sample(var);
+sol.d
+
+%%
+% *Partition Variables* (|partition| and |binary_partition|)
+%
+% Partition or allocation variables are used to partition/assign/allocate
+% some items to a list of predefined options.
+% The number of partitions is specified by |partition_count|.
+% The binary version, represents the solution as binary flags.
+%
+% _Some Examples_
+%
+%%
+% This is a simple partition/allocation variable:
+var = ypea_var('a', 'partition', 'size', 10, 'partition_count', 3);
+
+%%
+% which means partitioning of 10 items into 4 partitions.
+% A sample solution may be:
+sol = ypea_generate_sample(var);
+sol.a
+
+%%
+% The same variable can be defined in binary form:
+var = ypea_var('b', 'binary_partition', 'size', 10, 'partition_count', 3);
+
+%%
+% and a sample solution may be like this:
+sol = ypea_generate_sample(var);
+sol.b
+
+%%
+% Just like permutation and selection variables, it is possible to perform multiple
+% partitions/allocations. For example, 2 partitioning operations, each of which is
+% allocating 10 items to 3 options, can be defined as:
+var = ypea_var('c', 'partition', 'size', [2 10], 'partition_count', 3);
+
+%%
+% A sample solution for this variable definition follows:
+sol = ypea_generate_sample(var);
+sol.c
+
+%%
+% The first allocation is given by:
+sol.c{1}
+
+%%
+% The binary equivalent of multiple selection can be defined as:
+var = ypea_var('d', 'binary_partition', 'size', [2 10], 'partition_count', 3);
+sol = ypea_generate_sample(var);
+sol.d
+
+%%
+sol.d{1}
+
+%%
+% *Fixed Sum Variable* (|sum|, |row_sum| and |col_sum| )
+%
+% Fixed sum variables represent are used to ensure that sum of some real valued
+% numbers is exactly equal to a specified |target| value. This equality,
+% can be defined for sum of all elements of a matrix or rows and columns of
+% the matrix.
+%
+% _Some Examples_
+%
+
+%%
+% For example, this defines a 3-by-4 matrix, which its sum of elements
+% equals to 5:
+var = ypea_var('x', 'sum', 'size', [3 4], 'target', 5);
+
+%%
+% Let's generate a sample of this:
+sol = ypea_generate_sample(var);
+sol.x
+
+%%
+% We can check the equality by:
+sum(sol.x(:))
+
+%%
+% If the same variable set is defined to have fixed row sum, we will have:
+var = ypea_var('x', 'row_sum', 'size', [3 4], 'target', 5);
+sol = ypea_generate_sample(var);
+sol.x
+
+%%
+% And the sum of rows of the sample is given by:
+sum(sol.x, 2)
+
+%%
+% The fixed column sum version of this variable follows:
+var = ypea_var('x', 'col_sum', 'size', [3 4], 'target', 5);
+sol = ypea_generate_sample(var);
+sol.x
+
+%%
+% And the sum of columns of the sample is given by:
+sum(sol.x)
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,256 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Artificial Bee Colony</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-27"><meta name="DC.source" content="doc_ypea_abc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Artificial Bee Colony</h1><!--introduction--><p>This document shows how <b>Artificial Bee Colony (ABC)</b> as a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA) cab be used to solve optimization problems.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Definition</a></li><li><a href="#6">Artificial Bee Colony</a></li><li><a href="#11">Results</a></li></ul></div><h2 id="1">Problem Definition</h2><p>First of all, we need to define optimization problem. We must define the search space (decision variables) and objective function.</p><p>Let's ceate an instance of optimization problem.</p><pre class="codeinput">problem = ypea_problem();
+</pre><p>Assume that the problem is to find 20 real numbers, in range -10 to 10.</p><pre class="codeinput">problem.vars = ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, 20, <span class="string">'lower_bound'</span>, -10, <span class="string">'upper_bound'</span>, 10);
+</pre><p>And, the objective is to minimize the well-known <i>sphere</i> function in this domain.</p><pre class="codeinput">sphere = ypea_test_function(<span class="string">'sphere'</span>);
+problem.obj_func = @(sol) sphere(sol.x);
+</pre><p>To get more information on the optimization problems and decision variables, you can go to <a href="doc_ypea_problem.html">Optimization Problems</a> and <a href="doc_ypea_var.html">Decision Variables</a>.</p><h2 id="6">Artificial Bee Colony</h2><p>Now, we are ready to create, initialize and utilize the Artificial Bee Colony (ABC) to solve the optimization problem, defined above.</p><p>First, we must create an instance of algorithm class:</p><pre class="codeinput">alg = ypea_abc();
+</pre><p>Let's set the parameters of the algorithm.</p><pre class="codeinput"><span class="comment">% Maximum Number of Iterations</span>
+alg.max_iter = 100;
+
+<span class="comment">% Population Size</span>
+alg.pop_size = 100;
+
+<span class="comment">% Number of Onlooker Bees</span>
+alg.onlooker_count = 20;
+
+<span class="comment">% Maximum Acceleration</span>
+alg.max_acceleration = 0.5;
+</pre><p>And now, we are ready to run the algorithm and solve the problem. The solve method, gets problem as input and returns <tt>best_sol</tt>, the best solution found by the algorithm.</p><pre class="codeinput">best_sol = alg.solve(problem);
+</pre><pre class="codeoutput">Artificial Bee Colony started ...
+Initializing population.
+Iteration 1: Best this. Value = 149.9616, NFE = 220
+Iteration 2: Best this. Value = 113.4952, NFE = 340
+Iteration 3: Best this. Value = 90.1241, NFE = 460
+Iteration 4: Best this. Value = 74.0871, NFE = 580
+Iteration 5: Best this. Value = 65.8949, NFE = 700
+.
+.
+.
+Iteration 95: Best this. Value = 0.8657, NFE = 11501
+Iteration 96: Best this. Value = 0.8657, NFE = 11621
+Iteration 97: Best this. Value = 0.8657, NFE = 11741
+Iteration 98: Best this. Value = 0.8657, NFE = 11861
+Iteration 99: Best this. Value = 0.8657, NFE = 11981
+Iteration 100: Best this. Value = 0.8657, NFE = 12101
+End of optimization.
+</pre><p>You may turn of the text output, by disabling the display property, just befor running the algorithm (i.e. calling <tt>alg.solve(problem)</tt>).</p><pre class="codeinput">alg.display = false;
+</pre><h2 id="11">Results</h2><p>The actual solution, is stored in the <tt>solution</tt> field of <tt>best_sol</tt>.</p><pre class="codeinput">best_sol.solution
+</pre><pre class="codeoutput">
+ans = 
+
+  struct with fields:
+
+    x: [1&times;20 double]
+
+</pre><p>The values of 20 decision variables, denoted by <tt>x</tt> is as follows:</p><pre class="codeinput">best_sol.solution.x
+</pre><pre class="codeoutput">
+ans =
+
+  Columns 1 through 7
+
+    0.1150   -0.2366   -0.1239    0.3504    0.1512    0.0201    0.0340
+
+  Columns 8 through 14
+
+    0.3653   -0.1018   -0.1485    0.0732   -0.0991   -0.0269    0.1046
+
+  Columns 15 through 20
+
+   -0.2693   -0.0558   -0.2174    0.1683   -0.4308    0.3233
+
+</pre><p>and the related objective value is:</p><pre class="codeinput">best_sol.obj_value
+</pre><pre class="codeoutput">
+ans =
+
+    0.8657
+
+</pre><p>Total run time of the algorithm is given by (in seconds):</p><pre class="codeinput">alg.run_time
+</pre><pre class="codeoutput">
+ans =
+
+    1.5227
+
+</pre><p>and total number of function evaluations is given by:</p><pre class="codeinput">alg.nfe
+</pre><pre class="codeoutput">
+ans =
+
+       12101
+
+</pre><p>We can illustrate the result of optimization process by plotting best objective value history (<tt>alg.best_obj_value_history</tt>) vs. number of function evaluations (<tt>alg.nfe_history</tt>).</p><pre class="codeinput">figure;
+alg.semilogy(<span class="string">'nfe'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'NFE'</span>);
+ylabel(<span class="string">'Best Objective Value'</span>);
+title([<span class="string">'Results of '</span> alg.full_name]);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="doc_ypea_abc_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Artificial Bee Colony
+% This document shows how
+% *Artificial Bee Colony (ABC)*
+% as a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA)
+% cab be used to solve optimization problems.
+
+%% Problem Definition
+% First of all, we need to define optimization problem. We must define the
+% search space (decision variables) and objective function.
+
+%%
+% Let's ceate an instance of optimization problem.
+problem = ypea_problem();
+
+%%
+% Assume that the problem is to find 20 real numbers, in range -10 to 10.
+problem.vars = ypea_var('x', 'real', 'size', 20, 'lower_bound', -10, 'upper_bound', 10);
+
+%%
+% And, the objective is to minimize the well-known _sphere_ function
+% in this domain.
+sphere = ypea_test_function('sphere');
+problem.obj_func = @(sol) sphere(sol.x);
+
+%%
+% To get more information on the optimization problems and decision variables,
+% you can go to
+% <doc_ypea_problem.html Optimization Problems> and
+% <doc_ypea_var.html Decision Variables>.
+
+%% Artificial Bee Colony
+% Now, we are ready to create, initialize and utilize the
+% Artificial Bee Colony (ABC)
+% to solve the optimization problem, defined above.
+
+%%
+% First, we must create an instance of algorithm class:
+alg = ypea_abc();
+
+%%
+% Let's set the parameters of the algorithm.
+
+% Maximum Number of Iterations
+alg.max_iter = 100;
+
+% Population Size
+alg.pop_size = 100;
+
+% Number of Onlooker Bees
+alg.onlooker_count = 20;
+
+% Maximum Acceleration
+alg.max_acceleration = 0.5;
+
+%%
+% And now, we are ready to run the algorithm and solve the problem.
+% The solve method, gets problem as input and returns |best_sol|, the best solution found
+% by the algorithm.
+
+best_sol = alg.solve(problem);
+
+%%
+% You may turn of the text output, by disabling the display property, just
+% befor running the algorithm (i.e. calling |alg.solve(problem)|).
+alg.display = false;
+
+%% Results
+
+%%
+% The actual solution, is stored in the |solution| field of |best_sol|.
+
+best_sol.solution
+
+%%
+% The values of 20 decision variables, denoted by |x| is as follows:
+best_sol.solution.x
+
+%%
+% and the related objective value is:
+best_sol.obj_value
+
+%%
+% Total run time of the algorithm is given by (in seconds):
+alg.run_time
+
+%%
+% and total number of function evaluations is given by:
+alg.nfe
+
+%%
+% We can illustrate the result of optimization process by plotting
+% best objective value history (|alg.best_obj_value_history|)
+% vs. number of function evaluations (|alg.nfe_history|).
+
+figure;
+alg.semilogy('nfe', 'LineWidth', 2);
+xlabel('NFE');
+ylabel('Best Objective Value');
+title(['Results of ' alg.full_name]);
+grid on;
+
+##### SOURCE END #####
+--></body></html>

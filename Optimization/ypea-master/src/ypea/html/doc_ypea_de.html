@@ -1,0 +1,283 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Differential Evolution</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-27"><meta name="DC.source" content="doc_ypea_de.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Differential Evolution</h1><!--introduction--><p>This document shows how <b>Differential Evolution (DE)</b> as a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA) cab be used to solve optimization problems.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Definition</a></li><li><a href="#6">Differential Evolution</a></li><li><a href="#12">Results</a></li></ul></div><h2 id="1">Problem Definition</h2><p>First of all, we need to define optimization problem. We must define the search space (decision variables) and objective function.</p><p>Let's ceate an instance of optimization problem.</p><pre class="codeinput">problem = ypea_problem();
+</pre><p>Assume that the problem is to find 20 real numbers, in range -10 to 10.</p><pre class="codeinput">problem.vars = ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, 20, <span class="string">'lower_bound'</span>, -10, <span class="string">'upper_bound'</span>, 10);
+</pre><p>And, the objective is to minimize the well-known <i>sphere</i> function in this domain.</p><pre class="codeinput">sphere = ypea_test_function(<span class="string">'sphere'</span>);
+problem.obj_func = @(sol) sphere(sol.x);
+</pre><p>To get more information on the optimization problems and decision variables, you can go to <a href="doc_ypea_problem.html">Optimization Problems</a> and <a href="doc_ypea_var.html">Decision Variables</a>.</p><h2 id="6">Differential Evolution</h2><p>Now, we are ready to create, initialize and utilize the Differential Evolution (DE) to solve the optimization problem, defined above.</p><p>Firstly, we must create an instance of algorithm class. According to the conventions found in the literature of Differential Evolution (DE), we are using the <tt>DE/best/2/exp</tt> version, which means:</p><div><ul><li>the base vector of mutation, is the best solution ever found,</li><li>two vector differences are used (i.e. four random solutions have contribution in creation of mutated vector),</li><li>and exponential crossover is utilized.</li></ul></div><pre class="codeinput">alg = ypea_de(<span class="string">'DE/best/2/exp'</span>);
+</pre><p>Some other available configurations are listed below:</p><div><ul><li><tt>DE/rand/1/bin</tt> (default)</li><li><tt>DE/rand-to-best/1/exp</tt></li><li><tt>DE/target-to-best/3/bin</tt></li><li><tt>DE/best/1/bin</tt></li><li><tt>DE/rand/5/exp</tt></li></ul></div><p>Let's set the parameters of the algorithm.</p><pre class="codeinput"><span class="comment">% Maximum Number of Iterations</span>
+alg.max_iter = 1000;
+
+<span class="comment">% Population Size</span>
+alg.pop_size = 20;
+
+<span class="comment">% Minimum Value of Acceleration Coefficient</span>
+alg.beta_min = 0.1;
+
+<span class="comment">% Maximum Value of Acceleration Coefficient</span>
+alg.beta_max = 0.9;
+
+<span class="comment">% Crossover Probability</span>
+alg.crossover_prob = 0.1;
+</pre><p>And now, we are ready to run the algorithm and solve the problem. The solve method, gets problem as input and returns <tt>best_sol</tt>, the best solution found by the algorithm.</p><pre class="codeinput">best_sol = alg.solve(problem);
+</pre><pre class="codeoutput">Differential Evolution started ...
+Initializing population.
+Iteration 1: Best this. Value = 378.2692, NFE = 40
+Iteration 2: Best this. Value = 378.2692, NFE = 60
+Iteration 3: Best this. Value = 378.2692, NFE = 80
+Iteration 4: Best this. Value = 378.2692, NFE = 100
+Iteration 5: Best this. Value = 378.2692, NFE = 120
+.
+.
+.
+Iteration 995: Best this. Value = 8.6327e-25, NFE = 19920
+Iteration 996: Best this. Value = 7.8928e-25, NFE = 19940
+Iteration 997: Best this. Value = 6.5559e-25, NFE = 19960
+Iteration 998: Best this. Value = 6.5559e-25, NFE = 19980
+Iteration 999: Best this. Value = 5.3667e-25, NFE = 20000
+Iteration 1000: Best this. Value = 5.3667e-25, NFE = 20020
+End of optimization.
+</pre><p>You may turn of the text output, by disabling the display property, just befor running the algorithm (i.e. calling <tt>alg.solve(problem)</tt>).</p><pre class="codeinput">alg.display = false;
+</pre><h2 id="12">Results</h2><p>The actual solution, is stored in the <tt>solution</tt> field of <tt>best_sol</tt>.</p><pre class="codeinput">best_sol.solution
+</pre><pre class="codeoutput">
+ans = 
+
+  struct with fields:
+
+    x: [1&times;20 double]
+
+</pre><p>The values of 20 decision variables, denoted by <tt>x</tt> is as follows:</p><pre class="codeinput">best_sol.solution.x
+</pre><pre class="codeoutput">
+ans =
+
+   1.0e-12 *
+
+  Columns 1 through 7
+
+    0.0533    0.2327   -0.0391   -0.1830   -0.1741    0.2842   -0.0338
+
+  Columns 8 through 14
+
+    0.1208    0.0924    0.0888    0.3304   -0.0071    0.1403   -0.1492
+
+  Columns 15 through 20
+
+    0.1616    0.3055    0.0160   -0.0551    0.0142   -0.1652
+
+</pre><p>and the related objective value is:</p><pre class="codeinput">best_sol.obj_value
+</pre><pre class="codeoutput">
+ans =
+
+   5.3667e-25
+
+</pre><p>Total run time of the algorithm is given by (in seconds):</p><pre class="codeinput">alg.run_time
+</pre><pre class="codeoutput">
+ans =
+
+    3.2940
+
+</pre><p>and total number of function evaluations is given by:</p><pre class="codeinput">alg.nfe
+</pre><pre class="codeoutput">
+ans =
+
+       20020
+
+</pre><p>We can illustrate the result of optimization process by plotting best objective value history (<tt>alg.best_obj_value_history</tt>) vs. number of function evaluations (<tt>alg.nfe_history</tt>).</p><pre class="codeinput">figure;
+alg.semilogy(<span class="string">'nfe'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'NFE'</span>);
+ylabel(<span class="string">'Best Objective Value'</span>);
+title([<span class="string">'Results of '</span> alg.full_name]);
+grid <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="doc_ypea_de_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Differential Evolution
+% This document shows how
+% *Differential Evolution (DE)*
+% as a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA)
+% cab be used to solve optimization problems.
+
+%% Problem Definition
+% First of all, we need to define optimization problem. We must define the
+% search space (decision variables) and objective function.
+
+%%
+% Let's ceate an instance of optimization problem.
+problem = ypea_problem();
+
+%%
+% Assume that the problem is to find 20 real numbers, in range -10 to 10.
+problem.vars = ypea_var('x', 'real', 'size', 20, 'lower_bound', -10, 'upper_bound', 10);
+
+%%
+% And, the objective is to minimize the well-known _sphere_ function
+% in this domain.
+sphere = ypea_test_function('sphere');
+problem.obj_func = @(sol) sphere(sol.x);
+
+%%
+% To get more information on the optimization problems and decision variables,
+% you can go to
+% <doc_ypea_problem.html Optimization Problems> and
+% <doc_ypea_var.html Decision Variables>.
+
+%% Differential Evolution
+% Now, we are ready to create, initialize and utilize the
+% Differential Evolution (DE)
+% to solve the optimization problem, defined above.
+
+%%
+% Firstly, we must create an instance of algorithm class.
+% According to the conventions found in the literature of
+% Differential Evolution (DE), we are using the |DE/best/2/exp| version,
+% which means:
+% 
+% * the base vector of mutation, is the best solution ever found,
+% * two vector differences are used (i.e. four random solutions have
+% contribution in creation of mutated vector),
+% * and exponential crossover is utilized.
+% 
+alg = ypea_de('DE/best/2/exp');
+
+%%
+% Some other available configurations are listed below:
+%
+% * |DE/rand/1/bin| (default)
+% * |DE/rand-to-best/1/exp|
+% * |DE/target-to-best/3/bin|
+% * |DE/best/1/bin|
+% * |DE/rand/5/exp|
+%
+
+%%
+% Let's set the parameters of the algorithm.
+
+% Maximum Number of Iterations
+alg.max_iter = 1000;
+
+% Population Size
+alg.pop_size = 20;
+
+% Minimum Value of Acceleration Coefficient
+alg.beta_min = 0.1;
+
+% Maximum Value of Acceleration Coefficient
+alg.beta_max = 0.9;
+
+% Crossover Probability
+alg.crossover_prob = 0.1;
+
+%%
+% And now, we are ready to run the algorithm and solve the problem.
+% The solve method, gets problem as input and returns |best_sol|, the best solution found
+% by the algorithm.
+
+best_sol = alg.solve(problem);
+
+%%
+% You may turn of the text output, by disabling the display property, just
+% befor running the algorithm (i.e. calling |alg.solve(problem)|).
+alg.display = false;
+
+%% Results
+
+%%
+% The actual solution, is stored in the |solution| field of |best_sol|.
+
+best_sol.solution
+
+%%
+% The values of 20 decision variables, denoted by |x| is as follows:
+best_sol.solution.x
+
+%%
+% and the related objective value is:
+best_sol.obj_value
+
+%%
+% Total run time of the algorithm is given by (in seconds):
+alg.run_time
+
+%%
+% and total number of function evaluations is given by:
+alg.nfe
+
+%%
+% We can illustrate the result of optimization process by plotting
+% best objective value history (|alg.best_obj_value_history|)
+% vs. number of function evaluations (|alg.nfe_history|).
+
+figure;
+alg.semilogy('nfe', 'LineWidth', 2);
+xlabel('NFE');
+ylabel('Best Objective Value');
+title(['Results of ' alg.full_name]);
+grid on;
+
+##### SOURCE END #####
+--></body></html>

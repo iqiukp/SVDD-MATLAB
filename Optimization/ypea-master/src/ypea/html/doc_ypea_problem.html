@@ -1,0 +1,385 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>How to define Optimization Problems</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-04-27"><meta name="DC.source" content="doc_ypea_problem.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>How to define Optimization Problems</h1><!--introduction--><p>This document shows how to define optimization problem and use <tt>ypea_problem</tt> class, which is a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Elements of an Optimization Problem</a></li><li><a href="#3">A Classic Example</a></li><li><a href="#8">TSP: A Combinatorial Optimization Problem</a></li><li><a href="#20">A Problem with Several Decision Variables</a></li><li><a href="#23">Binary Kapsack Problem</a></li></ul></div><h2 id="1">Elements of an Optimization Problem</h2><p>The class <tt>ypea_problem</tt> is defined to model an optimization problem. Main elements and properties of this class, are listed below.</p><div><ul><li><tt>type</tt>, which can be either <tt>'minimization'</tt> (<tt>'min'</tt> for short) and <tt>'maximization'</tt> (<tt>'max'</tt> for short).</li><li><tt>vars</tt>, which is an array of <tt>ypea_var</tt>, and defines the decision variables and search space of the problem. To get more information on decision variables, see <a href="doc_ypea_var.html">Decision Variables</a>.</li><li><tt>obj_func</tt>, which is a function or function handle, accepting the solution structure (with fields defined by <tt>vars</tt>) and returning the valu of objective as output.</li><li><tt>goal</tt>, which is the desired value of objective function and can be used as a stopping criterion by optimization algorithms.</li><li><tt>max_nfe</tt>, which defines an upper limit on the number of function evaluations, to solve the problem. This can be used as a stopping criterion by optimization algorithms.</li></ul></div><p>In addition to these parameters, there are some methods inside the class, which are used bye optimization algorithms. For example, the comparison of the solutions is completely carried out inside the problem class and the problem itself, is responsible for this.</p><h2 id="3">A Classic Example</h2><p>Assume that, we want to define a problem of minimizing a benchmark function, say <i>sphere</i> or <i>rastrigin</i>, in a 20-dimensional space.</p><p>Let's ceate an instance of optimization problem.</p><pre class="codeinput">problem = ypea_problem();
+</pre><p>To define the search space, we create a single varibale, which contains 20 real values, in the range of -10 to +10.</p><pre class="codeinput">problem.vars = ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>, <span class="string">'size'</span>, 20, <span class="string">'lower_bound'</span>, -10, <span class="string">'upper_bound'</span>, 10);
+</pre><p>And, the objective is to minimize the well-known <i>sphere</i> function in this domain.</p><pre class="codeinput">f = ypea_test_function(<span class="string">'sphere'</span>);
+problem.obj_func = @(sol) f(sol.x);
+</pre><p>If it is needed to minimize the <i>rastrigin</i>, we may do it in this way:</p><pre class="codeinput">f = ypea_test_function(<span class="string">'rastrigin'</span>);
+problem.obj_func = @(sol) f(sol.x);
+</pre><h2 id="8">TSP: A Combinatorial Optimization Problem</h2><p>Assume that we are going to solve a Traveling Salesman Problem (TSP) using one of algorithms, in Yarpiz Evolutionary Algorithms Toolbox (YPEA).</p><p>Assume that we have 30 nodes (cities), around a circle. Let's define the number of cities:</p><pre class="codeinput">n = 30;
+</pre><p>Shuffle the order of nodes, to have enough randomness in the TSP problem.</p><pre class="codeinput">t = randperm(n) - 1;
+</pre><p>Let's place the nodes on a circle, with radius of 40, and centerd on (50,50).</p><pre class="codeinput">R = 40;
+x0 = 50;
+y0 = 50;
+x = x0 + R * cos(2*pi*t/n);
+y = y0 + R * sin(2*pi*t/n);
+</pre><p>Now, we are ready to calculate the distance matrix.</p><pre class="codeinput">d = zeros(n,n);
+<span class="keyword">for</span> i = 1:n
+    <span class="keyword">for</span> j = i+1:n
+        d(i,j) = sqrt((x(i)-x(j))^2 + (y(i)-y(j))^2);
+        d(j,i) = d(i,j);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p>Also, we need to define a function, that computes length of a given tour, on a graph. A one line solution, as an anonymous function, is as follows:</p><pre class="codeinput">TourLength = @(tour) trace(d(tour ,tour([2:end 1])));
+</pre><p>Now we have all of needed components to define the optimization problem.</p><p>To define the problem, we need an instance of Optimization Problem class.</p><pre class="codeinput">problem = ypea_problem();
+</pre><p>We need to define a decision variable, named <tt>Tour</tt>, of permutation type, with the length on <tt>n</tt>. This can be done by running:</p><pre class="codeinput">problem.vars = ypea_var(<span class="string">'Tour'</span>, <span class="string">'perm'</span>, <span class="string">'size'</span>, n);
+</pre><p>And, the objective is to minimize the well-known <i>sphere</i> function in this domain.</p><pre class="codeinput">problem.obj_func = @(sol) TourLength(sol.Tour);
+</pre><p>Also, we define a goal value for our problem, which is the perimeter of the circle, in the case of our problem. By defining this goal value, as soon as the algorithm finds a solution that meets this goal, the execution of the optimization process, will be terminated.</p><pre class="codeinput">problem.goal = 2*pi*R;
+</pre><p>That is it. Now create an instance of any optimization algorithm in YPEA, named <tt>alg</tt>, and call the followig line of code, and solve the TSP problem defined above:</p><pre class="language-matlab">best_sol = alg.solve(problem);
+</pre><h2 id="20">A Problem with Several Decision Variables</h2><p>Assume that we want to find <img src="doc_ypea_problem_eq12428413953531653171.png" alt="$x$">, <img src="doc_ypea_problem_eq08830444604280721118.png" alt="$y$"> and <img src="doc_ypea_problem_eq17119888974628994297.png" alt="$z$">, which maximizes the following objective function:</p><p><img src="doc_ypea_problem_eq16114942239860023720.png" alt="$$ f(x, y, z) = xy - z^3 - 2x - 5y + 3(x+y)z^2$$"></p><p>where <img src="doc_ypea_problem_eq08501245671220091808.png" alt="$x \in [-2, 5]$">, <img src="doc_ypea_problem_eq12449408011634778316.png" alt="$y \in [-1, 1]$">, and <img src="doc_ypea_problem_eq15292415790299304638.png" alt="$z \in [3, 10]$">.</p><p>This problem can be defined in this way:</p><pre class="codeinput"><span class="comment">% Create an Instance of Optimization Problem</span>
+problem = ypea_problem();
+
+<span class="comment">% Set the Problem Type</span>
+problem.type = <span class="string">'max'</span>;
+
+<span class="comment">% Define the Decision Variables</span>
+problem.vars = [
+    ypea_var(<span class="string">'x'</span>, <span class="string">'real'</span>, <span class="string">'lower_bound'</span>, -2, <span class="string">'upper_bound'</span>, 5)
+    ypea_var(<span class="string">'y'</span>, <span class="string">'real'</span>, <span class="string">'lower_bound'</span>, -1, <span class="string">'upper_bound'</span>, 1)
+    ypea_var(<span class="string">'z'</span>, <span class="string">'real'</span>, <span class="string">'lower_bound'</span>, 3, <span class="string">'upper_bound'</span>, 10)
+];
+
+<span class="comment">% Define the Objective Function</span>
+f = @(x, y, z) x*y - z^3 - 2*x - 5*y + 3*(x+y)*z^2;
+problem.obj_func = @(sol) f(sol.x, sol.y, sol.z);
+</pre><p>Now you may call the <tt>solve</tt> method of any instance of YPEA optimization algorithms, to solve the problem.</p><h2 id="23">Binary Kapsack Problem</h2><p>Assume well-known binary knapsack probelm, which is defined as:</p><p><img src="doc_ypea_problem_eq11965249268681063134.png" alt="$$\max \sum_{i=1}^{n} v_{i} x_{i} $$"></p><p>subject to:</p><p><img src="doc_ypea_problem_eq04521966503183397412.png" alt="$$ \sum_{i=1}^{n} w_{i} x{i} \leq W $$&#xA;and&#xA;$$ x_i \in \{0,1\} $$"></p><p>Assume the parameters of the problem are given by:</p><pre class="codeinput"><span class="comment">% Values of Items</span>
+v = [9 6 8 7 6 3 6 1 6 6 7 9 9 7 6 9 6 1 2 8];
+
+<span class="comment">% Weights of Items</span>
+w = [5 8 2 5 6 1 6 4 1 5 2 2 2 2 2 1 6 3 5 7];
+
+<span class="comment">% Maximum Weight</span>
+W = 20;
+
+<span class="comment">% Number of Items</span>
+n = numel(v);
+</pre><p>Let's create an instance of <tt>ypea_problem</tt> and specify its type:</p><pre class="codeinput">problem = ypea_problem();
+problem.type = <span class="string">'maximization'</span>;  <span class="comment">% or simply 'max'</span>
+</pre><p>The search space of the problem is given by:</p><pre class="codeinput">problem.vars = ypea_var(<span class="string">'x'</span>, <span class="string">'binary'</span>, <span class="string">'size'</span>, n);
+</pre><p>The objetive function can be defined as:</p><pre class="codeinput">f = @(x) sum(v.*x);
+</pre><p>Also, the constraint of the problem, is given by:</p><pre class="codeinput">g = @(x) sum(w.*x) - W;
+</pre><p>which implies that, if <tt>g(x)</tt> is less than or equal to 0, the constriant is satisfied.</p><p>We may alter the definition of <tt>g</tt> to relect the violations only:</p><pre class="codeinput">g  = @(x) max(sum(w.*x) - W, 0);
+</pre><p>Now, we are ready to define the objective function of the problem:</p><pre class="codeinput"><span class="comment">% Penalty Factor</span>
+alpha = 100;
+
+<span class="comment">% The Objetive Function</span>
+problem.obj_func = @(sol) f(sol.x) - alpha*g(sol.x);
+</pre><p>If the solution is in the feasible space, then the objective funcion is exactly same as the <tt>f</tt>. However, if the solution is not feasible, then some negative penalty is added, to reduce the objective value and make the solution less promising.</p><p>The optimal solution for this problem is given by:</p><pre class="codeinput">xopt = [1 0 1 0 0 1 0 0 1 0 1 1 1 1 1 1 0 0 0 0];
+</pre><p>The objetive value is:</p><pre class="codeinput">f(xopt)
+</pre><pre class="codeoutput">
+ans =
+
+    73
+
+</pre><p>with total weight of:</p><pre class="codeinput">sum(w.*xopt)
+</pre><pre class="codeoutput">
+ans =
+
+    20
+
+</pre><p>You may use any of algorithms implemented in YPEA, to solve this problem.</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% How to define Optimization Problems
+% This document shows how to define optimization problem
+% and use |ypea_problem| class, 
+% which is a part of Yarpiz Evolutionary Algorithms Toolbox (YPEA).
+
+%% Elements of an Optimization Problem
+% The class |ypea_problem| is defined to model an optimization problem.
+% Main elements and properties of this class, are listed below.
+%
+% * |type|, which can be either |'minimization'| (|'min'| for short) and
+% |'maximization'| (|'max'| for short).
+% * |vars|, which is an array of |ypea_var|, and defines the decision
+% variables and search space of the problem. To get more information on how
+% to use decision variables, see <doc_ypea_var.html Decision Variables>.
+% * |obj_func|, which is a function or function handle, accepting the solution structure (with
+% fields defined by |vars|) and returning the valu of objective as output.
+% * |goal|, which is the desired value of objective function and can be
+% used as a stopping criterion by optimization algorithms.
+% * |max_nfe|, which defines an upper limit on the number of function
+% evaluations, to solve the problem. This can be used as a stopping
+% criterion by optimization algorithms.
+
+%%
+% In addition to these parameters, there are some methods inside the class,
+% which are used bye optimization algorithms. For example, the comparison
+% of the solutions is completely carried out inside the problem class and
+% the problem itself, is responsible for this.
+
+%% A Classic Example
+% Assume that, we want to define a problem of minimizing a benchmark
+% function, say _sphere_ or _rastrigin_, in a 20-dimensional space.
+
+%%
+% Let's ceate an instance of optimization problem.
+problem = ypea_problem();
+
+%%
+% To define the search space, we create a single varibale, which contains
+% 20 real values, in the range of -10 to +10.
+problem.vars = ypea_var('x', 'real', 'size', 20, 'lower_bound', -10, 'upper_bound', 10);
+
+%%
+% And, the objective is to minimize the well-known _sphere_ function
+% in this domain.
+f = ypea_test_function('sphere');
+problem.obj_func = @(sol) f(sol.x);
+
+%%
+% If it is needed to minimize the _rastrigin_, we may do it in this way:
+f = ypea_test_function('rastrigin');
+problem.obj_func = @(sol) f(sol.x);
+
+
+%% TSP: A Combinatorial Optimization Problem
+% Assume that we are going to solve a Traveling Salesman Problem (TSP)
+% using one of algorithms, in Yarpiz Evolutionary Algorithms Toolbox (YPEA).
+
+%%
+% Assume that we have 30 nodes (cities), around a circle. Let's define the
+% number of cities:
+n = 30;
+
+%%
+% Shuffle the order of nodes, to have enough randomness in the TSP problem.
+t = randperm(n) - 1;
+
+%%
+% Let's place the nodes on a circle, with radius of 40,
+% and centerd on (50,50).
+R = 40;
+x0 = 50;
+y0 = 50;
+x = x0 + R * cos(2*pi*t/n);
+y = y0 + R * sin(2*pi*t/n);
+
+%%
+% Now, we are ready to calculate the distance matrix.
+d = zeros(n,n);
+for i = 1:n
+    for j = i+1:n
+        d(i,j) = sqrt((x(i)-x(j))^2 + (y(i)-y(j))^2);
+        d(j,i) = d(i,j);
+    end
+end
+
+%%
+% Also, we need to define a function, that computes length of a given tour,
+% on a graph. A one line solution, as an anonymous function, is as follows:
+TourLength = @(tour) trace(d(tour ,tour([2:end 1])));
+
+%%
+% Now we have all of needed components to define the optimization problem.
+
+%%
+% To define the problem, we need an instance of Optimization Problem class.
+problem = ypea_problem();
+
+%%
+% We need to define a decision variable, named |Tour|, of permutation type,
+% with the length on |n|. This can be done by running:
+problem.vars = ypea_var('Tour', 'perm', 'size', n);
+
+%%
+% And, the objective is to minimize the well-known _sphere_ function
+% in this domain.
+problem.obj_func = @(sol) TourLength(sol.Tour);
+
+%%
+% Also, we define a goal value for our problem, which is the perimeter of
+% the circle, in the case of our problem. By defining this goal value,
+% as soon as the algorithm finds a solution that meets this goal,
+% the execution of the optimization process, will be terminated.
+problem.goal = 2*pi*R;
+
+%%
+% That is it. Now create an instance of any optimization algorithm in YPEA,
+% named |alg|, and call the followig line of code, and solve the TSP
+% problem defined above:
+% 
+%   best_sol = alg.solve(problem);
+% 
+
+%% A Problem with Several Decision Variables
+% Assume that we want to find $x$, $y$ and $z$, which maximizes the
+% following objective function:
+% 
+% $$ f(x, y, z) = xy - z^3 - 2x - 5y + 3(x+y)z^2$$
+% 
+% where $x \in [-2, 5]$, $y \in [-1, 1]$, and $z \in [3, 10]$.
+
+%%
+% This problem can be defined in this way:
+
+% Create an Instance of Optimization Problem
+problem = ypea_problem();
+
+% Set the Problem Type
+problem.type = 'max';
+
+% Define the Decision Variables
+problem.vars = [
+    ypea_var('x', 'real', 'lower_bound', -2, 'upper_bound', 5)
+    ypea_var('y', 'real', 'lower_bound', -1, 'upper_bound', 1)
+    ypea_var('z', 'real', 'lower_bound', 3, 'upper_bound', 10)
+];
+
+% Define the Objective Function
+f = @(x, y, z) x*y - z^3 - 2*x - 5*y + 3*(x+y)*z^2;
+problem.obj_func = @(sol) f(sol.x, sol.y, sol.z);
+
+%%
+% Now you may call the |solve| method of any instance of YPEA optimization
+% algorithms, to solve the problem.
+
+%% Binary Kapsack Problem
+% Assume well-known binary knapsack probelm, which is defined as:
+% 
+% $$\max \sum_{i=1}^{n} v_{i} x_{i} $$
+% 
+% subject to:
+% 
+% $$ \sum_{i=1}^{n} w_{i} x{i} \leq W $$
+% and
+% $$ x_i \in \{0,1\} $$
+% 
+
+%%
+% Assume the parameters of the problem are given by:
+
+% Values of Items
+v = [9 6 8 7 6 3 6 1 6 6 7 9 9 7 6 9 6 1 2 8];
+
+% Weights of Items
+w = [5 8 2 5 6 1 6 4 1 5 2 2 2 2 2 1 6 3 5 7];
+
+% Maximum Weight
+W = 20;
+
+% Number of Items
+n = numel(v);
+
+%%
+% Let's create an instance of |ypea_problem| and specify its type:
+problem = ypea_problem();
+problem.type = 'maximization';  % or simply 'max'
+
+%%
+% The search space of the problem is given by:
+problem.vars = ypea_var('x', 'binary', 'size', n);
+
+%%
+% The objetive function can be defined as:
+f = @(x) sum(v.*x);
+
+%%
+% Also, the constraint of the problem, is given by:
+g = @(x) sum(w.*x) - W;
+
+%%
+% which implies that, if |g(x)| is less than or equal to 0, the constriant
+% is satisfied.
+
+%%
+% We may alter the definition of |g| to relect the violations only:
+g  = @(x) max(sum(w.*x) - W, 0);
+
+%%
+% Now, we are ready to define the objective function of the problem:
+
+% Penalty Factor
+alpha = 100;
+
+% The Objetive Function
+problem.obj_func = @(sol) f(sol.x) - alpha*g(sol.x);
+
+%%
+% If the solution is in the feasible space, then the objective funcion is
+% exactly same as the |f|. However, if the solution is not feasible, then
+% some negative penalty is added, to reduce the objective value and make
+% the solution less promising.
+
+%%
+% The optimal solution for this problem is given by:
+xopt = [1 0 1 0 0 1 0 0 1 0 1 1 1 1 1 1 0 0 0 0];
+
+%%
+% The objetive value is:
+f(xopt)
+
+%%
+% with total weight of:
+sum(w.*xopt)
+
+%%
+% You may use any of algorithms implemented in YPEA, to solve this problem.
+
+##### SOURCE END #####
+--></body></html>
