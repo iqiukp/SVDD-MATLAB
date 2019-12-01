@@ -134,3 +134,15 @@ Visualization.plotROC(testLabel, result.distance);
 Visualization.plotDecisionBoundary(SVDD, model, trainData, trainLabel);
 
 ```
+
+* decision boundary
+
+![](img/contour.png)![](img/decision-boundary.png)
+
+* testing result
+
+![](img/distance.png)
+
+* ROC curve
+
+![](img/ROC.png)
