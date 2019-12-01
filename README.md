@@ -137,12 +137,12 @@ Visualization.plotDecisionBoundary(SVDD, model, trainData, trainLabel);
 
 * decision boundary
 
-![](img/contour.png)![](img/decision-boundary.png)
+<img src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/contour.png" width="480"><img src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/decision-boundary.png" width="480">
 
 * testing result
 
-![](img/distance.png)
+<img src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/distance.png" width="480">
 
 * ROC curve
 
-![](img/ROC.png)
+<img src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/ROC.png" width="480">
