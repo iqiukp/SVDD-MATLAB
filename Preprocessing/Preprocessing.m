@@ -7,8 +7,8 @@ classdef Preprocessing < handle
         methods(Static)
             
             % normalize the training data and testing data
-            function [trainData, testData] = normalize(trainData, testData, varargin)
-                [trainData, testData] = normalize(trainData, testData, varargin);
+            function [trainData, testData] = normalize(trainData, testData)
+                [trainData, testData] = normalize(trainData, testData);
             end
 
             % standardize the training data and testing data
