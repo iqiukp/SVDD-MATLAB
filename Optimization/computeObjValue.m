@@ -4,7 +4,7 @@ function objValue = computeObjValue(parameter)
 
             compute the value of objective function 
 
-              [trainData, testData] = standardize(parameter)
+              objValue = computeObjValue(parameter)
 
         INPUT
           parameter            SVDD parameter and kernel parameter
