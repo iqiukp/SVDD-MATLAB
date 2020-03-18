@@ -1,6 +1,6 @@
 classdef KernelExponential < KernelBase
    methods
-       function kernelMatrix = getKernelMatrix(~, obj, x, y)
+       function kernelmatrix = getKernelMatrix(~, obj, x, y)
         %{
 
         DESCRIPTION
@@ -22,11 +22,13 @@ classdef KernelExponential < KernelBase
            end
            
            % compute kernel function matrix
-           sx = sum(x.^2, 2);
-           sy = sum(y.^2, 2);
-           xy = 2*x*y';
-           kernelMatrix = exp(-sqrt(-(bsxfun(@minus, bsxfun(@minus, xy, sx), sy')))...
-               /obj.parameter.width^2);
+           kernelmatrix = zeros(size(x, 1), size(y, 1));
+           for i = 1:size(x, 1)
+               for j = 1:size(y, 1)
+                   kernelmatrix(i, j) = exp(-sum(abs(x(i, :)-y(j, :)))/obj.parameter.width^2);
+               end
+           end
+           
        end
    end
 end 
