@@ -1,5 +1,5 @@
 %{
-    Demonstration of nSVDD parameter optimization.
+    Demonstration of weighted SVDD model.
 %}
 
 clc
@@ -15,20 +15,11 @@ addpath(genpath(pwd))
 kernel = Kernel('type', 'gaussian', 'gamma', 0.04);
 cost = 0.3;
 
-% optimization setting 
-optimization.method = 'bayes'; % bayes, ga  pso 
-optimization.variableName = { 'cost', 'gamma'};
-optimization.variableType = {'real', 'real'}; % 'integer' 'real'
-optimization.lowerBound = [10^-2, 2^-6];
-optimization.upperBound = [10^0, 2^6];
-optimization.maxIteration = 20;
-optimization.points = 10;
-optimization.display = 'on';
-
+% weight
+weight = rand(200 , 1);
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
-                       'KFold', 10,... % 10-folds
-                       'optimization', optimization);
+                       'weight', weight);
                
 % creat an SVDD object
 svdd = BaseSVDD(svddParameter);

@@ -1,35 +1,34 @@
 %{
-    SVDD application for positive training data and negative training data.
+    Demonstration of SVDD model training with both positive and negative samples.
 %}
 
-
+clc
 clear all
 close all
-clc
 addpath(genpath(pwd))
 
-%% load training data and testing data
-[trainData, trainLabel, testData, testLabel] = prepareData('banana');
+% training data and test data
+[data, label] = DataSet.generate('dim', 2, 'num', [200, 200], 'display', 'off');
+[trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'hybrid');
 
-%% creat an SVDD object                 
-SVDD = Svdd('positiveCost', 0.7,...
-            'negativeCost', 0.9,...
-            'kernel', Kernel('type', 'gauss', 'width', 5));
-        
-%% train and test SVDD model
-% train an SVDD model 
-model = SVDD.train(trainData, trainLabel);
-
+% parameter setting
+kernel = Kernel('type', 'gaussian', 'gamma', 0.04);
+cost = 0.3;
+svddParameter = struct('cost', cost,...
+                       'kernelFunc', kernel);
+               
+% creat an SVDD object
+svdd = BaseSVDD(svddParameter);
+% train SVDD model
+svdd.train(trainData, trainLabel);
 % test SVDD model
-result = SVDD.test(model,testData, testLabel);
+results = svdd.test(testData, testLabel);
 
-%% Visualization
-% plot the curve of testing result
-Visualization.plotTestResult(model, result)
-% plot the ROC curve
-Visualization.plotROC(testLabel, result.distance);
-% plot the decision boundary
-Visualization.plotDecisionBoundary(SVDD, model, trainData, trainLabel);
+% Visualization 
+svplot = SvddVisualization();
+svplot.boundary(svdd);
+svplot.ROC(svdd);
+svplot.distance(svdd, results);
+svplot.testDataWithBoundary(svdd, results);
 
-
-
+exportgraphics(gcf, '.\img\模板.emf','Resolution', 600)
