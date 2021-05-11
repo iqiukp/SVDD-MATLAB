@@ -33,6 +33,7 @@
 
 - This version of the code is not compatible with the versions lower than R2016b.
 - The label must be 1 for positive sample or -1 for negative sample. 
+- Detailed applications please see the demonstrations.
 - This code is for reference only.
 
 ## How to use
@@ -213,7 +214,8 @@ For the test results, the test data and decision boundary (only supported for 2D
 svplot.testDataWithBoundary(svdd, results);
 ```
 <p align="center">
-  <img width="50%" height="50%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-tets-3D.png">
+  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-tets-2D.png">
+  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-tets-3D.png">
 </p>
 
 ### 05. Parameter Optimization
