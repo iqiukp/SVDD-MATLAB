@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="60%" height="60%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
+  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
 </p>
 
 <h3 align="center">Support Vector Data Description (SVDD)</h3>
@@ -193,11 +193,11 @@ svplot = SvddVisualization();
 svplot.boundary(svdd);
 ```
 <p align="center">
-  <img width="50%" height="50%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-2D.png">
+  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-2D.png">
 </p>
 
 <p align="center">
-  <img width="60%" height="60%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
+  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
 </p>
 
 The distance between the test data and the hypersphere is
