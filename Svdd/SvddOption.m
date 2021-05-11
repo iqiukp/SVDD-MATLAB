@@ -129,7 +129,7 @@ classdef SvddOption < handle
             fprintf('iterations              = %d \n', obj.numIterations)
             fprintf('number of samples       = %d \n', obj.numSamples)
             fprintf('number of SVs           = %d \n', obj.numSupportVectors)
-            fprintf('radio of SVs            = %.4f%% \n', 100*obj.numSupportVectors/obj.numSamples)
+            fprintf('ratio of SVs            = %.4f%% \n', 100*obj.numSupportVectors/obj.numSamples)
             fprintf('accuracy                = %.4f%%\n', 100*obj.performance.accuracy)
             if strcmp(obj.crossValidation.switch, 'on')
                 tmp_1 = '(';
