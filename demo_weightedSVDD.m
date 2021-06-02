@@ -16,7 +16,7 @@ kernel = Kernel('type', 'gaussian', 'gamma', 0.04);
 cost = 0.3;
 
 % weight
-weight = rand(200 , 1);
+weight = rand(size(trainData, 1) , 1);
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'weight', weight);
