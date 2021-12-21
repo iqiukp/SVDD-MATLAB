@@ -6,7 +6,7 @@ classdef SvddOptimization < handle
     
     -----------------------------------------------------------------
     
-        Version 1.1, 11-MAY-2021
+        Version 1.1.1, 22-DEC-2021
         Email: iqiukp@outlook.com
     ------------------------------------------------------------------
     %}
@@ -56,9 +56,17 @@ classdef SvddOptimization < handle
                     'Type', svdd.optimization.variableType{i});
                 parameter = [parameter, tmp_];
             end
+            % setting of display
+            switch svdd.optimization.display
+                case 'on'
+                    plotFcn = 'all';
+                case 'off'
+                    plotFcn = [];
+            end
             results = bayesopt(objFun, parameter, 'Verbose', 1,...
                 'MaxObjectiveEvaluations', svdd.optimization.maxIteration,...
-                'NumSeedPoints', svdd.optimization.points);
+                'NumSeedPoints', svdd.optimization.points, ...
+                 'PlotFcn', plotFcn);
             % optimization results
             [svdd.optimization.bestParam, ~, ~] = bestPoint(results, 'Criterion', 'min-observed');
         end
@@ -69,17 +77,32 @@ classdef SvddOptimization < handle
                 For detailed introduction of the algorithm and parameter
                 setting, please enter 'help ga' in the command line.
             %}
-            seedSize = 10*svdd.optimization.numVariables;
+            seedSize = 10*svdd.optimization.numVariables; 
             try
+                % setting of display
+                switch svdd.optimization.display
+                    case 'on'
+                        plotFcn = 'gaplotbestf';
+                    case 'off'
+                        plotFcn = [];
+                end
                 options = optimoptions('ga', 'PopulationSize', seedSize,...
                     'MaxGenerations', svdd.optimization.maxIteration,...
-                    'Display', 'diagnose', 'PlotFcn', 'gaplotbestf');
+                    'Display', 'diagnose', 'PlotFcn', plotFcn);
                 bestParam_ = ga(objFun, svdd.optimization.numVariables, [], [], [], [],...
                     svdd.optimization.lowerBound, svdd.optimization.upperBound, [], [], options);
-            catch % older vision 
+
+            catch % older vision
+                % setting of display
+                switch svdd.optimization.display
+                    case 'on'
+                        plotFcn = @gaplotbestf;
+                    case 'off'
+                        plotFcn = [];
+                end
                 options = optimoptions('ga', 'PopulationSize', seedSize,...
                     'MaxGenerations', svdd.optimization.maxIteration,...
-                    'Display', 'diagnose', 'PlotFcn', @gaplotbestf);
+                    'Display', 'diagnose', 'PlotFcn', plotFcn);
                 bestParam_ = ga(objFun, svdd.optimization.numVariables, [], [], [], [],...
                     svdd.optimization.lowerBound, svdd.optimization.upperBound, [], [], options);
             end
@@ -94,9 +117,16 @@ classdef SvddOptimization < handle
                 setting, please enter 'help particleswarm' in the command line.
             %}
             seedSize = 10*svdd.optimization.numVariables;
+            % setting of display
+            switch svdd.optimization.display
+                case 'on'
+                    plotFcn = 'pswplotbestf';
+                case 'off'
+                    plotFcn = [];
+            end
             options = optimoptions('particleswarm', 'SwarmSize', seedSize,...
                 'MaxIterations', svdd.optimization.maxIteration,...
-                'Display', 'iter', 'PlotFcn', 'pswplotbestf');
+                'Display', 'iter', 'PlotFcn', plotFcn);
             bestParam_ = particleswarm(objFun, svdd.optimization.numVariables,...
                 svdd.optimization.lowerBound, svdd.optimization.upperBound, options);
             % optimization results
