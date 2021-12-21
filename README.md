@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
+  <img width="70%" height="70%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D.png">
 </p>
 
 <h3 align="center">Support Vector Data Description (SVDD)</h3>
@@ -31,7 +31,7 @@
 
 ## Notices
 
-- This version of the code is not compatible with the versions lower than R2016b.
+- This version of the code is not compatible with the versions lower than ***R2016b***.
 - The label must be 1 for positive sample or -1 for negative sample. 
 - Detailed applications please see the demonstrations.
 - This code is for reference only.
@@ -54,8 +54,8 @@ A class named ***DataSet*** is defined to generate and partition the 2D or 3D ba
 [trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'hybrid');
 ```
 <p align="center">
-  <img width="30%" height="30%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/banana-2D.png">
-  <img width="30%" height="30%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/banana-3D.png">
+  <img width="30%" height="30%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-2D.png">
+  <img width="30%" height="30%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-3D.png">
 </p>
 
 ### 02. Kernel funcions
@@ -184,7 +184,7 @@ svplot = SvddVisualization();
 svplot.ROC(svdd);
 ```
 <p align="center">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/ROC-3D.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/ROC-3D.png">
 </p>
 
 The decision boundaries (only supported for 2D/3D dataset) are
@@ -194,11 +194,11 @@ svplot = SvddVisualization();
 svplot.boundary(svdd);
 ```
 <p align="center">
-  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-2D.png">
+  <img width="70%" height="70%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-2D.png">
 </p>
 
 <p align="center">
-  <img width="70%" height="70%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-3D.png">
+  <img width="70%" height="70%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D.png">
 </p>
 
 The distance between the test data and the hypersphere is
@@ -206,7 +206,7 @@ The distance between the test data and the hypersphere is
 svplot.distance(svdd, results);
 ```
 <p align="center">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/distance-3D.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/distance-3D.png">
 </p>
 
 For the test results, the test data and decision boundary (only supported for 2D/3D dataset) are
@@ -214,8 +214,8 @@ For the test results, the test data and decision boundary (only supported for 2D
 svplot.testDataWithBoundary(svdd, results);
 ```
 <p align="center">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-tets-2D.png">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/boundary-tets-3D.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-2D.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-3D.png">
 </p>
 
 ### 05. Parameter Optimization
@@ -241,8 +241,8 @@ svddParameter = struct('cost', cost,...
 
 The visualization of parameter optimization is 
 <p align="center">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/bayesopt.png">
-  <img width="40%" height="40%" src="https://github.com/iqiukp/Support-Vector-Data-Description-SVDD/blob/master/img/bayesopt-1.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt.png">
+  <img width="40%" height="40%" src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt-1.png">
 </p>
 
 **Notice**
