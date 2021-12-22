@@ -1,12 +1,6 @@
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/demo_.png">
 </p>
-
-
-<p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/demo-3.png">
-</p>
-
 
 <h3 align="center">Support Vector Data Description (SVDD)</h3>
 
@@ -60,8 +54,8 @@ A class named ***DataSet*** is defined to generate and partition the 2D or 3D ba
 [trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'hybrid');
 ```
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-2D.png">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-3D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-2D_.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/banana-3D_.png">
 </p>
 
 ### 02. Kernel funcions
@@ -190,7 +184,7 @@ svplot = SvddVisualization();
 svplot.ROC(svdd);
 ```
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/ROC-3D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/ROC-3D_.png">
 </p>
 
 The decision boundaries (only supported for 2D/3D dataset) are
@@ -200,11 +194,11 @@ svplot = SvddVisualization();
 svplot.boundary(svdd);
 ```
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-2D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-2D_.png">
 </p>
 
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D.png">
+  <img src="https://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D_.png">
 </p>
 
 The distance between the test data and the hypersphere is
@@ -212,7 +206,7 @@ The distance between the test data and the hypersphere is
 svplot.distance(svdd, results);
 ```
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/distance-3D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/distance-3D_.png">
 </p>
 
 For the test results, the test data and decision boundary (only supported for 2D/3D dataset) are
@@ -220,8 +214,8 @@ For the test results, the test data and decision boundary (only supported for 2D
 svplot.testDataWithBoundary(svdd, results);
 ```
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-2D.png">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-3D.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-2D_.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-tets-3D_.png">
 </p>
 
 ### 05. Parameter Optimization
@@ -247,8 +241,8 @@ svddParameter = struct('cost', cost,...
 
 The visualization of parameter optimization is 
 <p align="center">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt.png">
-  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt-1.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt_1_.png">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/bayesopt_2_.png">
 </p>
 
 **Notice**
