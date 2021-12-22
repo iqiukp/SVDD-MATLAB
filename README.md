@@ -2,6 +2,12 @@
   <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/boundary-3D.png">
 </p>
 
+
+<p align="center">
+  <img src="http://github-files-qiu.oss-cn-beijing.aliyuncs.com/SVDD-MATLAB/demo-3.png">
+</p>
+
+
 <h3 align="center">Support Vector Data Description (SVDD)</h3>
 
 <p align="center">MATLAB Code for abnormal detection or fault detection using SVDD</p>
