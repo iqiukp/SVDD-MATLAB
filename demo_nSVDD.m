@@ -30,5 +30,3 @@ svplot.boundary(svdd);
 svplot.ROC(svdd);
 svplot.distance(svdd, results);
 svplot.testDataWithBoundary(svdd, results);
-
-exportgraphics(gcf, '.\img\模板.emf','Resolution', 600)
