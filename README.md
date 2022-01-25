@@ -5,7 +5,7 @@
 <h3 align="center">Support Vector Data Description (SVDD)</h3>
 
 <p align="center">MATLAB Code for abnormal detection or fault detection using SVDD</p>
-<p align="center">Version 2.1.1, 22-DEC-2021</p>
+<p align="center">Version 2.1.5, 22-DEC-2021</p>
 <p align="center">Email: iqiukp@outlook.com</p>
 
 <div align=center>
