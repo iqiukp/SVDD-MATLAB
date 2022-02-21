@@ -41,7 +41,7 @@
 ### 01. banana-shaped dataset
 
 A class named ***DataSet*** is defined to generate and partition the 2D or 3D banana-shaped dataset.
-```
+```MATLAB
 [data, label] = DataSet.generate;
 [data, label] = DataSet.generate('dim', 2);
 [data, label] = DataSet.generate('dim', 2, 'num', [200, 200]);
@@ -61,7 +61,7 @@ A class named ***DataSet*** is defined to generate and partition the 2D or 3D ba
 ### 02. Kernel funcions
 
 A class named ***Kernel*** is defined to compute kernel function matrix.
-```
+```MATLAB
 %{
         type   -
         
@@ -83,7 +83,7 @@ kernel = Kernel('type', 'sigmoid', 'gamma', value);
 kernel = Kernel('type', 'laplacian', 'gamma', value);
 ```
 For example, compute the kernel matrix between **X** and **Y**
-```
+```MATLAB
 X = rand(5, 2);
 Y = rand(3, 2);
 kernel = Kernel('type', 'gaussian', 'gamma', 2);
@@ -101,7 +101,7 @@ kernelMatrix =
 
 ### 03-1. Simple SVDD model for dataset containing only positive samples
 
-```
+```MATLAB
 [data, label] = DataSet.generate('dim', 3, 'num', [200, 200], 'display', 'on');
 [trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'single');
 kernel = Kernel('type', 'gaussian', 'gamma', 0.2);
@@ -116,12 +116,12 @@ svdd.train(trainData, trainLabel);
 results = svdd.test(testData, testLabel);
 ```
 In this code, the input of ***svdd.train*** is also supported as:
-```
+```MATLAB
 % train SVDD model
 svdd.train(trainData);
 ```
 The training and test results:
-```
+```MATLAB
 *** SVDD model training finished ***
 running time            = 0.0069 seconds
 iterations              = 9 
@@ -140,7 +140,7 @@ accuracy                = 94.2308%
 
 ### 03-2. Simple SVDD model for dataset containing both positive and negetive samples
 
-```
+```MATLAB
 [data, label] = DataSet.generate('dim', 3, 'num', [200, 200], 'display', 'on');
 [trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'hybrid');
 kernel = Kernel('type', 'gaussian', 'gamma', 0.05);
@@ -156,7 +156,7 @@ results = svdd.test(testData, testLabel);
 ```
 
 The training and test results:
-```
+```MATLAB
 *** SVDD model training finished ***
 running time            = 0.0074 seconds
 iterations              = 9 
@@ -178,7 +178,7 @@ A class named ***SvddVisualization*** is defined to visualize the training and t
 
 Based on the trained SVDD model, the ROC curve of the training results (only supported for dataset containing both positive and negetive samples) is
 
-```
+```MATLAB
 % Visualization 
 svplot = SvddVisualization();
 svplot.ROC(svdd);
@@ -188,7 +188,7 @@ svplot.ROC(svdd);
 </p>
 
 The decision boundaries (only supported for 2D/3D dataset) are
-```
+```MATLAB
 % Visualization 
 svplot = SvddVisualization();
 svplot.boundary(svdd);
@@ -202,7 +202,7 @@ svplot.boundary(svdd);
 </p>
 
 The distance between the test data and the hypersphere is
-```
+```MATLAB
 svplot.distance(svdd, results);
 ```
 <p align="center">
@@ -210,7 +210,7 @@ svplot.distance(svdd, results);
 </p>
 
 For the test results, the test data and decision boundary (only supported for 2D/3D dataset) are
-```
+```MATLAB
 svplot.testDataWithBoundary(svdd, results);
 ```
 <p align="center">
@@ -222,7 +222,7 @@ svplot.testDataWithBoundary(svdd, results);
 
 A class named ***SvddOptimization*** is defined to optimized the parameters.
 
-```
+```MATLAB
 % optimization setting 
 optimization.method = 'bayes'; % bayes, ga  pso 
 optimization.variableName = { 'cost', 'gamma'};
@@ -256,13 +256,13 @@ The visualization of parameter optimization is
 
 In this code, two cross-validation methods are supported: 'K-Folds' and 'Holdout'.
 For example, the cross-validation of 5-Folds is
-```
+```MATLAB
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'KFold', 5);
 ```
 For example, the cross-validation of the Holdout method with a ratio of 0.3 is 
-```
+```MATLAB
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'Holdout', 0.3);
@@ -271,7 +271,7 @@ svddParameter = struct('cost', cost,...
 ### 07. Dimensionality reduction using PCA
 
 For example, reducing the data to 2 dimensions can be set as
-```
+```MATLAB
 % SVDD parameter
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
@@ -282,7 +282,7 @@ svddParameter = struct('cost', cost,...
 ### 08. Weighted SVDD
 
 An Observation-weighted SVDD is supported in this code. For example, the weighted SVDD can be set as
-```
+```MATLAB
 weight = rand(size(trainData, 1), 1);
 % SVDD parameter
 svddParameter = struct('cost', cost,...
