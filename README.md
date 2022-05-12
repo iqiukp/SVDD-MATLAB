@@ -62,7 +62,7 @@ results = svdd.test(testData, testLabel);
 - Specifically, if the data does not have labels, please change the inputs for training or testing to `svdd.train(trainData)` and `results = svdd.test(testData)`.
 
 ### 👉 Parameter Optimization for SVDD model
-A class named `SvddOptimization` is defined to optimized the parameters. First define an optimization setting structure, then add it to the svdd parameter structure.The parameter optimization of the polynomial kernel function can only be achieved by using Bayesian optimization.
+A class named `SvddOptimization` is defined to optimized the parameters. First define an optimization setting structure, then add it to the svdd parameter structure.The parameter optimization of the polynomial kernel function can only be achieved by using Bayesian optimization.  
 Please see the demonstration [`📝 demo_ParameterOptimization.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_ParameterOptimization.m) for details.
 ```MATLAB
 % optimization setting 
@@ -85,8 +85,7 @@ The full properties of optimization are
 - `display `: visualization, 'on' or 'off'.
 
 ### 👉 Visualization of SVDD model
-A class named `SvddVisualization` is defined to visualize the training and test results.
-Based on the trained SVDD model, the ROC curve of the training results (only supported for dataset containing both positive and negetive samples) is
+A class named `SvddVisualization` is defined to visualize the training and test results. Based on the trained SVDD model, the ROC curve of the training results (only supported for dataset containing both positive and negetive samples) is
 ```MATLAB
 % Visualization 
 svplot = SvddVisualization();
@@ -119,7 +118,7 @@ svplot.distance(svdd, results);
 </p>
 
 ### 👉 Binary Dataset for SVDD model
-A class named `BinaryDataset` is defined to generate and partition the 2D or 3D binary dataset. 
+A class named `BinaryDataset` is defined to generate and partition the 2D or 3D binary dataset.  
 Please see the demonstration [`📝demo_BinaryDataset.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_BinaryDataset.m) for details. 
 ```MATLAB
 ocdata = BinaryDataset();
@@ -145,7 +144,7 @@ The full Name-Value Arguments of class `BinaryDataset` are
 - `ratio`: ratio of the test set with range (0, 1). For example: 0.3.
 
 ### 👉 Kernel funcions
-A class named `BaseKernel* is defined to compute kernel function matrix. 
+A class named `BaseKernel` is defined to compute kernel function matrix.  
 Please see the demonstration [`📝demo_KernelFunction.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_KernelFunction.m) for details.
 ```MATLAB
 %{
@@ -169,8 +168,7 @@ kernel = BaseKernel('type', 'sigmoid', 'gamma', value);
 kernel = BaseKernel('type', 'laplacian', 'gamma', value);
 ```
 ### 👉 Cross Validation
-In this code, two cross-validation methods are supported: 'K-Folds' and 'Holdout'.
-For example, the cross-validation of 5-Folds is
+In this code, two cross-validation methods are supported: 'K-Folds' and 'Holdout'. For example, the cross-validation of 5-Folds is
 ```MATLAB
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
@@ -191,11 +189,12 @@ svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'PCA', 2);
 ```
-**Notice:** you only need to set PCA in svddParameter, and you don't need to process training data and test data separately. 
+Please see the demonstration [`📝demo_demo_DimReduPCA.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_DimReduPCA.m) for details.  
+*Notice:* you only need to set PCA in svddParameter, and you don't need to process training data and test data separately. 
 
 ### 👉 Weighted SVDD
-An Observation-weighted SVDD is supported in this code. 
-Please see the demonstration `demo_ObservationWeight.m` for details. 
+An Observation-weighted SVDD is supported in this code.  
+Please see the demonstration [`📝demo_ObservationWeight.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_ObservationWeight.m) for details. 
 ```MATLAB
 weight = rand(size(trainData, 1), 1);
 % SVDD parameter
@@ -203,21 +202,18 @@ svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'weight', weight);
 ```
-**Notice:** the size of 'weigh' should be m×1， where m is the number of training samples.
+*Notice:* the size of 'weigh' should be m×1， where m is the number of training samples.
 
 ### 👉 Hybrid-kernel SVDD model
-A demo for SVDD using Hybrid kernel functions (K =w1×K1+w2×K2+...+wn×Kn).
-Please see the demonstration `demo_HybridKernel.m` for details. 
+A demo for SVDD using Hybrid kernel functions (K =w1×K1+w2×K2+...+wn×Kn).  
+Please see the demonstration [`📝demo_HybridKernelSVDD.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_HybridKernelSVDD.m) for details. 
 ```MATLAB
-kernel_1 = BaseKernel('type', 'gaussian', 'gamma', 0.3);
-kernel_2 = BaseKernel('type', 'polynomial', 'degree', 2);
-kernel_3 = BaseKernel('type', 'sigmoid', 'gamma', 0.05);
-kernelWeight = [0.5, 0.2, 0.3];
-% parameter setting
-% kernel = Kernel('type', 'gaussian', 'gamma', 0.04);
-cost = 0.3;
+kernel_1 = BaseKernel('type', 'gaussian', 'gamma', 1);
+kernel_2 = BaseKernel('type', 'polynomial', 'degree', 3);
+kernelWeight = [0.5, 0.5];
+cost = 0.9;
+
 svddParameter = struct('cost', cost,...
-                       'kernelFunc', [kernel_1, kernel_2, kernel_3],...
+                       'kernelFunc', [kernel_1, kernel_2],...
                        'kernelWeight', kernelWeight);
 ```
-**Notice:** the size of 'weigh' should be m×1， where m is the number of training samples.
