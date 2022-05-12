@@ -1,15 +1,17 @@
 classdef SvddVisualization < handle
     %{
-        CLASS DESCRIPTION
-
         Visualization of trained SVDD model and test results.
-    
-    -----------------------------------------------------------------
-    
-        Version 1.1, 11-MAY-2021
+
+        Version 1.1, 13-MAY-2022
         Email: iqiukp@outlook.com
-    ----------------------------------------------------------------------
+
+        ------------------------------------------------------------
+        
+        BSD 3-Clause License
+        Copyright (c) 2022, Kepeng Qiu
+        All rights reserved.
     %}
+
     properties (Constant)
         positionForOne = [300 150 640 480]
         positionForTwo = [300 150 1200 500]
@@ -137,8 +139,8 @@ classdef SvddVisualization < handle
                     % boundary for 3D data
                 case 3
                     [X1, X2, X3] = meshgrid(x_range(:, 1), x_range(:, 2), x_range(:, 3));
-                    z_min = obj.radioZData*min(x_range(:, 3));
-                    z_max = obj.radioZData*max(x_range(:, 3));
+%                     z_min = obj.radioZData*min(x_range(:, 3));
+%                     z_max = obj.radioZData*max(x_range(:, 3));
                     X_ = [reshape(X1, [obj.numGrids*obj.numGrids*obj.numGrids, 1]), ...
                         reshape(X2, [obj.numGrids*obj.numGrids*obj.numGrids, 1]),...
                         reshape(X3, [obj.numGrids*obj.numGrids*obj.numGrids, 1])];
@@ -175,7 +177,7 @@ classdef SvddVisualization < handle
                     svdd.boundaryHandle.ZData = X3;
                     svdd.boundaryHandle.VData = dist_;
                     % setting
-                    zlim(subplot1, [z_min z_max]);
+%                     zlim(subplot1, [z_min z_max]);
                     view(subplot1, obj.viewAngle);
                     box(subplot1, 'on');
                     grid(subplot1, 'on');
@@ -217,7 +219,7 @@ classdef SvddVisualization < handle
                         svdd.supportVectors(:, 3), obj.scatterSize,...
                         'MarkerEdgeColor', 'k',...
                         'MarkerFaceColor', obj.markerFaceColorSupport);
-                    zlim(subplot2, [z_min z_max]);
+%                     zlim(subplot2, [z_min z_max]);
                     view(subplot2, obj.viewAngle);
                     box(subplot2, 'on');
                     grid(subplot2, 'on');
@@ -339,9 +341,9 @@ classdef SvddVisualization < handle
                                 'MarkerFaceColor', obj.markerFaceColorNegetive)
                     end
                     % setting
-                    z_min = obj.radioZData*min(x_range(:, 3));
-                    z_max = obj.radioZData*max(x_range(:, 3));
-                    zlim(gca, [z_min z_max]);
+%                     z_min = obj.radioZData*min(x_range(:, 3));
+%                     z_max = obj.radioZData*max(x_range(:, 3));
+%                     zlim(gca, [z_min z_max]);
                     view(gca, obj.viewAngle);
             end
             

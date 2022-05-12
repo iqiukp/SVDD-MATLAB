@@ -1,16 +1,23 @@
-classdef Kernel < handle
+classdef BaseKernel < handle
     %{
-        Kernel function
-    
+        Computation of kernel function matrix.
+
+        Email: iqiukp@outlook.com
+        -------------------------------------------------------------
+        
+        Version 1.0, 13-MAY-2022
+            -- First release.
+        -------------------------------------------------------------
+
             INPUT
         X         data (n*d)
         Y         data (m*d)
 
         OUTPUT
         K         kernel matrix (n*m)
-    
-    ----------------------------------------------------------------------
-                            
+
+
+
         type   -
         
         linear      :  k(x,y) = x'*y
@@ -23,27 +30,27 @@ classdef Kernel < handle
         degree -  d
         offset -  c
         gamma  -  γ
-    
-    ----------------------------------------------------------------------
-    
-        Version 1.1, 11-MAY-2021
-        Email: iqiukp@outlook.com
-    ----------------------------------------------------------------------
+        -------------------------------------------------------------
+
+        BSD 3-Clause License
+        Copyright (c) 2022, Kepeng Qiu
+        All rights reserved.
     %}
-    
+
     properties
-        type = 'gaussian'
+        type = 'gaussian' % 
         offset = 0
         gamma = 0.1
         degree = 2
     end
     
     methods
-        function obj = Kernel(varargin)
+        % create an object
+        function obj = BaseKernel(varargin)
             inputValue = varargin;
-            nParameter = size(inputValue, 2)/2;
+            numParameter = size(inputValue, 2)/2;
             supportedKernelFunc = {'linear', 'gaussian', 'polynomial', 'sigmoid', 'laplacian'};
-            for n = 1:nParameter
+            for n = 1:numParameter
                 parameter = inputValue{(n-1)*2+1};
                 value = inputValue{(n-1)*2+2};
                 if strcmp(parameter, 'type')
@@ -59,9 +66,9 @@ classdef Kernel < handle
             end
         end
         
+        % compute kernel function matrix
         function K = computeMatrix(obj, x, y)
             K = zeros(size(x, 1), size(y, 1));
-            % compute the kernel matrix
             switch obj.type
                 case 'linear' % linear kernel function
                     K = x*y';

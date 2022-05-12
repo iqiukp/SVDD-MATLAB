@@ -3,17 +3,22 @@
 %}
 
 clc
-clear all
 close all
 addpath(genpath(pwd))
 
-% training data and test data
-[data, label] = DataSet.generate('dim', 3, 'num', [200, 200], 'display', 'off');
-[trainData, trainLabel, testData, testLabel] = DataSet.partition(data, label, 'type', 'hybrid');
+ocdata = BinaryDataset( 'shape', 'circle',...
+                        'dimensionality', 3,...
+                        'number', [200, 200],...
+                        'display', 'on', ...
+                        'noise', 0.1,...
+                        'ratio', 0.3);
+
+[data, label] = ocdata.generate;
+[trainData, trainLabel, testData, testLabel] = ocdata.partition;
 
 % parameter setting
-kernel = Kernel('type', 'gaussian', 'gamma', 0.04);
-cost = 0.3;
+cost = 0.9;
+kernel = BaseKernel('type', 'gaussian', 'gamma', 0.5);
 svddParameter = struct('cost', cost,...
                        'kernelFunc', kernel,...
                        'PCA', 2);
@@ -28,6 +33,4 @@ results = svdd.test(testData, testLabel);
 % Visualization 
 svplot = SvddVisualization();
 svplot.boundary(svdd);
-svplot.ROC(svdd);
 svplot.distance(svdd, results);
-svplot.testDataWithBoundary(svdd, results);
