@@ -146,7 +146,7 @@ The full Name-Value Arguments of class `BinaryDataset` are
 
 ### 👉 Kernel funcions
 A class named `BaseKernel* is defined to compute kernel function matrix. 
-Please see the demonstration `📝demo_KernelFuncion.m` for details.
+Please see the demonstration [`📝demo_KernelFunction.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_KernelFunction.m) for details.
 ```MATLAB
 %{
         type   -
