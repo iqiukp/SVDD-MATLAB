@@ -38,7 +38,7 @@
 ## 🔨 HOW TO USE
 
 ### 👉 A simple SVDD model
-Please see the demonstration [`📝 demo_ParameterOptimization.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_BasicSVDD.m) for details.
+Please see the demonstration [`📝 demo_BasicSVDD.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_BasicSVDD.m) for details.
 ```MATLAB
 % generate dataset
 ocdata = BinaryDataset();
