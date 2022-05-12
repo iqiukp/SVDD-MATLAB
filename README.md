@@ -36,7 +36,9 @@
 - This code is for reference only.
 
 ## 🔨 HOW TO USE
+
 ### 👉 A simple SVDD model
+Please see the demonstration [`📝 demo_ParameterOptimization.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_BasicSVDD.m) for details.
 ```MATLAB
 % generate dataset
 ocdata = BinaryDataset();
@@ -61,7 +63,7 @@ results = svdd.test(testData, testLabel);
 
 ### 👉 Parameter Optimization for SVDD model
 A class named `SvddOptimization` is defined to optimized the parameters. First define an optimization setting structure, then add it to the svdd parameter structure.The parameter optimization of the polynomial kernel function can only be achieved by using Bayesian optimization.
-Please see the demonstration `📝 demo_ParameterOptimization.m` for details.
+Please see the demonstration [`📝 demo_ParameterOptimization.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_ParameterOptimization.m) for details.
 ```MATLAB
 % optimization setting 
 optimization.method = 'bayes'; % 
@@ -118,7 +120,7 @@ svplot.distance(svdd, results);
 
 ### 👉 Binary Dataset for SVDD model
 A class named `BinaryDataset` is defined to generate and partition the 2D or 3D binary dataset. 
-Please see the demonstration `📝demo_BinaryDataset.m` for details. 
+Please see the demonstration [`📝demo_BinaryDataset.m`](https://github.com/iqiukp/SVDD-MATLAB/blob/master/demo_BinaryDataset.m) for details. 
 ```MATLAB
 ocdata = BinaryDataset();
 [data, label] = ocdata.generate;
